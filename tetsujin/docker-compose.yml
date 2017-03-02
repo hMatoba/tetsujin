@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  tetsujin:
+    image: tetsujin
+    build:
+      context: ./tetsujin
+      dockerfile: Dockerfile
