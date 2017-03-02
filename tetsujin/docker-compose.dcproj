@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
   <PropertyGroup Label="Globals">
-    <ProjectGuid>2a0beeb2-d604-4834-8fb3-edcf3ba426a3</ProjectGuid>
+    <ProjectGuid>dfd54dc4-b7c6-4f9b-b2e7-a8635c2fb8ee</ProjectGuid>
     <DockerLaunchBrowser>True</DockerLaunchBrowser>
     <DockerServiceUrl>http://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>tetsujin</DockerServiceName>
