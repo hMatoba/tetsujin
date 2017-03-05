@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using tetsujin.Data;
 using tetsujin.Models;
 using tetsujin.Services;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace tetsujin
 {
@@ -48,6 +50,13 @@ namespace tetsujin
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
+
+            services.AddSingleton<HtmlEncoder>(
+                HtmlEncoder.Create(allowedRanges: new[] {UnicodeRanges.BasicLatin,
+                                                         UnicodeRanges.CjkSymbolsandPunctuation,
+                                                         UnicodeRanges.Hiragana,
+                                                         UnicodeRanges.Katakana,
+                                                         UnicodeRanges.CjkUnifiedIdeographs}));
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
