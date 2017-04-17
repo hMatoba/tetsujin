@@ -22,6 +22,8 @@ namespace tetsujin
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            DbConnection.Connect(Configuration.GetSection("ConnectionStrings")["Mongo"]);
         }
 
         public IConfigurationRoot Configuration { get; }
