@@ -2,14 +2,23 @@ import unittest
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-HOST = "http://192.168.11.17:32768"
+HOST = "http://192.168.11.17:32769"
+DELAY = 5
 
 class BrowserTests(unittest.TestCase):
     """tests for main five functions."""
 
     def setUp(self):
-        self.driver = webdriver.PhantomJS()
+        self.driver = webdriver.Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=DesiredCapabilities.CHROME)
+        self.driver.implicitly_wait(10)
 
     def test_top(self):
         """top page"""
@@ -22,10 +31,12 @@ class BrowserTests(unittest.TestCase):
         """login success"""
         self.driver.get(HOST + "/Login")
 
-        el1 = self.driver.find_element_by_name("id")
+        el1 = self.driver.find_element_by_name("_id")
         el1.send_keys("testuser")
+
         el2 = self.driver.find_element_by_name("password")
         el2.send_keys("password")
+
         el3 = self.driver.find_element_by_name("enter")
         el3.click()
 
@@ -35,7 +46,7 @@ class BrowserTests(unittest.TestCase):
         """login failure"""
         self.driver.get(HOST + "/Login")
 
-        el1 = self.driver.find_element_by_name("id")
+        el1 = self.driver.find_element_by_name("_id")
         el1.send_keys("testuser")
         el2 = self.driver.find_element_by_name("password")
         el2.send_keys("fooooooo")
