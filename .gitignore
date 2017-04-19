@@ -304,3 +304,5 @@ $RECYCLE.BIN/
 
 
 mytools/
+browsertest/tests/__pycache__/
+browsertest/browsertest.egg-info/
