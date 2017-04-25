@@ -10,10 +10,13 @@ using Microsoft.Extensions.Logging;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
+
 namespace tetsujin
 {
     public class Startup
     {
+        public static IConfigurationRoot Configuration { get; set; }
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -25,8 +28,6 @@ namespace tetsujin
 
             DbConnection.Connect(Configuration.GetSection("ConnectionStrings")["Mongo"]);
         }
-
-        public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -67,7 +68,6 @@ namespace tetsujin
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
         }
     }
 }

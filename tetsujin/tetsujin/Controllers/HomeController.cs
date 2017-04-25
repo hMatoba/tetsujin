@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using tetsujin.Models;
 
 namespace tetsujin.Controllers
 {
@@ -24,11 +25,13 @@ namespace tetsujin.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public RedirectResult LoginAuth()
+        public RedirectResult LoginAuth(Session session)
         {
-            var loginPassed = false;
+            var id = Request.Form["_id"];
+            var password = Request.Form["password"];
+            var isAuthorized = Session.Login(id, password, Response.Cookies);
 
-            if (loginPassed)
+            if (isAuthorized)
             {
                 return Redirect("/Master");
             }
