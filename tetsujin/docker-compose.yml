@@ -6,3 +6,5 @@ services:
     build:
       context: ./tetsujin
       dockerfile: Dockerfile
+    ports:
+      - "5001:5001"

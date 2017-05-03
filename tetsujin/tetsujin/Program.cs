@@ -15,6 +15,7 @@ namespace tetsujin
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
+                .UseUrls("http://0.0.0.0:5001")
                 .UseApplicationInsights()
                 .Build();
 
