@@ -16,8 +16,8 @@ class BrowserTests(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Remote(
-            command_executor='http://127.0.0.1:4444/wd/hub',
-            desired_capabilities=DesiredCapabilities.CHROME)
+            command_executor = 'http://127.0.0.1:4444/wd/hub',
+            desired_capabilities = DesiredCapabilities.CHROME)
         self.driver.implicitly_wait(10)
 
     def test_top(self):
@@ -40,7 +40,7 @@ class BrowserTests(unittest.TestCase):
         el3 = self.driver.find_element_by_name("enter")
         el3.click()
 
-        self.assertEqual("Admin Menu", self.driver.title)
+        self.assertIn("Master Menu", self.driver.title)
 
     def test_login_failure(self):
         """login failure"""
@@ -53,7 +53,7 @@ class BrowserTests(unittest.TestCase):
         el3 = self.driver.find_element_by_name("enter")
         el3.click()
 
-        self.assertNotEqual("Admin Menu", self.driver.title)
+        self.assertNotIn("Master Menu", self.driver.title)
 
 
 def suite():
