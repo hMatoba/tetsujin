@@ -7,4 +7,17 @@ services:
       context: ./tetsujin
       dockerfile: Dockerfile
     ports:
-      - "5001:5001"
+      - "5001"
+    labels:
+      - "com.microsoft.visualstudio.targetoperatingsystem=linux"
+
+  proxy:
+    build:
+      context:  ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "5002:443"
+    links:
+      - tetsujin
+    labels:
+      - "com.microsoft.visualstudio.targetoperatingsystem=linux"

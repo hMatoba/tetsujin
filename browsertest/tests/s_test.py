@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-HOST = "http://192.168.11.17:32768"
+HOST = "https://192.168.11.17:5002"
 DELAY = 5
 
 class BrowserTests(unittest.TestCase):
