@@ -1,0 +1,117 @@
+﻿@model tetsujin.Models.Entry
+@{
+    Layout = "/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Edit | Admin Page";
+
+}
+
+<form action="/Master/Edit" method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="EntryID" value="@ViewBag.entry.EntryID" />
+
+
+
+    <div>
+        @Html.LabelFor(model => model.Title)
+        <div>
+            @Html.EditorFor(model => model.Title,
+                            new { htmlAttributes = new { @class = "edit-input" } })
+        </div>
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.PublishDate)
+        <div>
+            @Html.EditorFor(model => model.PublishDate)
+        </div>
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model._Tag)
+        <div>
+            @Html.EditorFor(model => model._Tag,
+                            new { htmlAttributes = new { @class = "edit-input" } })
+        </div>
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.Body)
+        <div>
+            @Html.EditorFor(model => model.Body,
+                            new { htmlAttributes = new {
+                                @cols = "60",
+                                @rows = "20",
+                                @ondrop = "drop(event, this)",
+                                @ondragover = "allowDrop(event)"
+                            } })
+            <div id="images"></div>
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.IsShown)
+        @Html.EditorFor(model => model.IsShown)
+    </div>
+
+    <input type="submit" value="post">
+
+</form>
+
+<button id="imageButton">Show Images</button>
+<button id="linkButton">Add link tag</button>
+<script>
+    var pointerKeeper = 0;
+    document.getElementById("Body")
+            .addEventListener("blur", function () {
+                pointerKeeper = document.getElementById("Body").selectionStart;
+            });
+
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData('text/html', ev.target.src);
+    }
+
+    function drop(ev, target) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text/html");
+        console.log(data);
+        var imgTag = `<img class='img' src='${data}' />\n`;
+        var text = target.value;
+        target.value = text.substr(0, pointerKeeper) + imgTag + text.substr(pointerKeeper);
+    }
+
+    document.getElementById("imageButton").addEventListener("click", function () {
+        var xhr = new XMLHttpRequest();
+        xhr.open("get", "/Master/Images/Info");
+        xhr.responseType = "json";
+        xhr.addEventListener("load", function () {
+            var obj = xhr.response;
+            for (var key in obj) {
+                (function () {
+                    var img = document.createElement("IMG");
+                    img.src = "https://meursault.blob.core.windows.net/blog/" + obj[key]["nm"];
+                    img.dataset.width = obj[key]["w"];
+                    img.dataset.height = obj[key]["h"];
+                    img.width = 250;
+                    img.className = "img";
+                    img.draggable = true;
+                    img.addEventListener("dragstart", drag);
+                    document.getElementById("images").appendChild(img);
+                })();
+            }
+
+        });
+        xhr.send();
+    });
+
+    document.getElementById("linkButton").addEventListener("click", function () {
+        var imgTag = "<a href='' target='_blank'></a>\n";
+        var target = document.getElementById("Body");
+        var text = target.value;
+        target.value = text.substr(0, pointerKeeper) + imgTag + text.substr(pointerKeeper);
+    });
+</script>
