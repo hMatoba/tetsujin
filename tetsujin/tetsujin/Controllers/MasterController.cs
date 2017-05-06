@@ -23,6 +23,17 @@ namespace tetsujin.Controllers
             return View();
         }
 
+        [Route("Remove")]
+        [HttpPost]
+        public IActionResult Remove()
+        {
+            var ids = Request.Form["entryId[]"].Select((a) => Int32.Parse(a)).ToList();
+            Entry.DeleteMany(ids);
+            ViewBag.count = Request.Form["entryId[]"].Count;
+
+            return View();
+        }
+
         [Route("Edit/{id:int?}")]
         public IActionResult Edit(int? id)
         {
