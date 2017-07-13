@@ -5,10 +5,10 @@ public static class DbConnection
     public static IMongoDatabase db;
     public static string ConnectionString;
 
-    public static void Connect(string connectionString)
+    public static void Connect(string connectionString, string dbName)
     {
         ConnectionString = connectionString;
         var client = new MongoClient(ConnectionString);
-        db = client.GetDatabase("helicon");
+        db = client.GetDatabase(dbName);
     }
 }

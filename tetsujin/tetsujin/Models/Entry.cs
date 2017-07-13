@@ -58,14 +58,14 @@ namespace tetsujin.Models
 
         public static int Count(bool isShown = false)
         {
-            var collection = DbConnection.db.GetCollection<BsonDocument>("entries");
+            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
             var filter = Builders<BsonDocument>.Filter.Eq("isShown", !isShown);
             return Convert.ToInt32(collection.Count(filter));
         }
 
         public static int CountFiltered(List<string> tag, bool isShown = true)
         {
-            var collection = DbConnection.db.GetCollection<BsonDocument>("entries");
+            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
             var filter = Builders<BsonDocument>.Filter.Eq("isShown", !isShown) &
                          Builders<BsonDocument>.Filter.In("tag", tag);
             return Convert.ToInt32(collection.Count(filter));
@@ -74,7 +74,7 @@ namespace tetsujin.Models
 
         public static Entry GetEntry(int id, bool admin = false)
         {
-            var collection = DbConnection.db.GetCollection<Entry>("entries");
+            var collection = DbConnection.db.GetCollection<Entry>("Entry");
 
             FilterDefinition<Entry> filter;
             var f = Builders<Entry>.Filter;
@@ -100,7 +100,7 @@ namespace tetsujin.Models
 
         public static List<Entry> GetRecentEntry(int skip_n, bool admin = false, bool isSitemap = false)
         {
-            var collection = DbConnection.db.GetCollection<Entry>("entries");
+            var collection = DbConnection.db.GetCollection<Entry>("Entry");
 
             var skip = skip_n * LIMIT;
 
@@ -136,7 +136,7 @@ namespace tetsujin.Models
 
         public static List<Entry> GetSameTagEntry(List<string> filterTag, int skip_n, int? excludeId = null)
         {
-            var collection = DbConnection.db.GetCollection<Entry>("entries");
+            var collection = DbConnection.db.GetCollection<Entry>("Entry");
 
             var skip = skip_n * LIMIT;
 
@@ -172,7 +172,7 @@ namespace tetsujin.Models
 
         public bool Insert()
         {
-            var collection = DbConnection.db.GetCollection<BsonDocument>("entries");
+            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
 
             var sortDoc = Builders<BsonDocument>.Sort.Descending("_id");
             var d = collection.Find<BsonDocument>(new BsonDocument { })
@@ -192,7 +192,7 @@ namespace tetsujin.Models
         {
             Tag.RemoveAll((item) => item == null);
 
-            var collection = DbConnection.db.GetCollection<BsonDocument>("entries");
+            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
 
             var filter = Builders<BsonDocument>.Filter.Eq("_id", EntryID);
             collection.ReplaceOne(filter, this.ToBsonDocument());
@@ -202,7 +202,7 @@ namespace tetsujin.Models
 
         public static bool DeleteMany(List<int> ids)
         {
-            var collection = DbConnection.db.GetCollection<BsonDocument>("entries");
+            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
 
             var filter = Builders<BsonDocument>.Filter.In("_id", ids);
             collection.DeleteMany(filter);
@@ -223,7 +223,7 @@ namespace tetsujin.Models
 
         public static List<Entry> FilterByMonth(int year, int month, int skip = 0)
         {
-            var collection = DbConnection.db.GetCollection<Entry>("entries");
+            var collection = DbConnection.db.GetCollection<Entry>("Entry");
 
             var dateMin = new DateTime(year, month, 1);
             var dateMax = dateMin.AddMonths(1);
@@ -249,7 +249,7 @@ namespace tetsujin.Models
             var dayInMonth = DateTime.DaysInMonth(year, month);
             var dateMax = dateMin.AddMonths(1);
 
-            var collection = DbConnection.db.GetCollection<BsonDocument>("entries");
+            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
             var filter = Builders<BsonDocument>.Filter.Eq("isShown", isShown) &
                          Builders<BsonDocument>.Filter.Gte("publishDate", dateMin) &
                          Builders<BsonDocument>.Filter.Lt("publishDate", dateMax);

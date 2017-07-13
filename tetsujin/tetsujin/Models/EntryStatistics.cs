@@ -13,7 +13,7 @@ namespace tetsujin.Models
     {
         public static void MapReduceTag()
         {
-            var collection = DbConnection.db.GetCollection<BsonDocument>("entries");
+            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
             var map = (BsonJavaScript)@"
                 function() {
                     emit('tag', this.tag);
@@ -38,7 +38,7 @@ namespace tetsujin.Models
             var options = new MapReduceOptions<BsonDocument, object>();
             var filter = Builders<BsonDocument>.Filter.Eq("showFlg", true);
             options.Filter = filter;
-            options.OutputOptions = MapReduceOutputOptions.Replace("tagInfo");
+            options.OutputOptions = MapReduceOutputOptions.Replace("TagInfo");
 
             collection.MapReduce(map, reduce, options);
 
@@ -46,7 +46,7 @@ namespace tetsujin.Models
 
         public static void MapReduceDate()
         {
-            var collection = DbConnection.db.GetCollection<BsonDocument>("entries");
+            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
             var map = (BsonJavaScript)@"
                 function() {
                     emit('dateGrouping', this.publishDate);
@@ -70,7 +70,7 @@ namespace tetsujin.Models
             var options = new MapReduceOptions<BsonDocument, object>();
             var filter = Builders<BsonDocument>.Filter.Eq("showFlg", true);
             options.Filter = filter;
-            options.OutputOptions = MapReduceOutputOptions.Replace("dateInfo");
+            options.OutputOptions = MapReduceOutputOptions.Replace("DateInfo");
 
             collection.MapReduce(map, reduce, options);
 
@@ -78,7 +78,7 @@ namespace tetsujin.Models
 
         public static Dictionary<string, int> GetTagInfo()
         {
-            var collection = DbConnection.db.GetCollection<BsonDocument>("tagInfo");
+            var collection = DbConnection.db.GetCollection<BsonDocument>("TagInfo");
             var filter = Builders<BsonDocument>.Filter.Eq("_id", "tag");
             var result = collection.Find<BsonDocument>(filter);
             var doc = result.FirstOrDefault();
@@ -93,7 +93,7 @@ namespace tetsujin.Models
 
         public static Dictionary<string, int> GetDateInfo()
         {
-            var collection = DbConnection.db.GetCollection<BsonDocument>("dateInfo");
+            var collection = DbConnection.db.GetCollection<BsonDocument>("DateInfo");
             var filter = Builders<BsonDocument>.Filter.Eq("_id", "dateGrouping");
             var result = collection.Find<BsonDocument>(filter);
             var doc = result.FirstOrDefault();

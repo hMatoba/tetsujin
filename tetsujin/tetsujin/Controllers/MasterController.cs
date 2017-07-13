@@ -70,5 +70,45 @@ namespace tetsujin.Controllers
             return View();
         }
 
+        [Route("Profile/Edit")]
+        public IActionResult EditProfile()
+        {
+            ViewBag.profile = Sidebar.GetProfile();
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Profile/Edit")]
+        [ValidateAntiForgeryToken]
+        public IActionResult PostProfile()
+        {
+            Sidebar.SaveProfile(Request.Form["body"]);
+            return Redirect("/Master");
+        }
+
+        [HttpGet]
+        [Route("Images")]
+        public IActionResult ImageForm()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Images")]
+        public async Task<string> SaveImagesAsync()
+        {
+            var files = Request.Form.Files.ToList();
+            await BlobFiles.SaveImagesAsync(files);
+
+            return "ok";
+        }
+
+        [HttpGet]
+        [Route("Images/Info")]
+        public async Task<ActionResult> GetImageInfoAsync()
+        {
+            var json = await BlobFiles.GetImageInfoAsync();
+            return Content(json, "application/json");
+        }
     }
 }

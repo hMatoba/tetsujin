@@ -28,7 +28,7 @@ class BrowserTests(unittest.TestCase):
 
     def test_login_success(self):
         """login success"""
-        self.driver.get(HOST + "/Login")
+        self.driver.get(HOST + "/Auth/Login")
 
         el1 = self.driver.find_element_by_name("_id")
         el1.send_keys("testuser")
@@ -43,7 +43,7 @@ class BrowserTests(unittest.TestCase):
 
     def test_login_failure(self):
         """login failure"""
-        self.driver.get(HOST + "/Login")
+        self.driver.get(HOST + "/Auth/Login")
 
         el1 = self.driver.find_element_by_name("_id")
         el1.send_keys("testuser")

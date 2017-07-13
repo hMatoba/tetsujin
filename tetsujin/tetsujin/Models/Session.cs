@@ -7,9 +7,12 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Http;
 using System.Security.Cryptography;
+using MangoFramework;
+using System.Collections.Generic;
 
 namespace tetsujin.Models
 {
+    [MongoDoc]
     public class Session
     {
         public const string SESSION_COOKIE = "markofcain";
@@ -23,7 +26,14 @@ namespace tetsujin.Models
         [BsonRequired]
         public DateTime CreatedAt { get; set; }
 
-        
+        public static List<CreateIndexModel<BsonDocument>> indexModels = new List<CreateIndexModel<BsonDocument>>()
+        {
+            new CreateIndexModel<BsonDocument>(
+                new IndexKeysDefinitionBuilder<BsonDocument>().Ascending(new StringFieldDefinition<BsonDocument>("createdAt")),
+                new CreateIndexOptions(){ ExpireAfter = TimeSpan.FromDays(10) }
+            )
+        };
+
         /// <summary>
         /// ログインしているかの状態を返す
         /// </summary>
@@ -35,7 +45,7 @@ namespace tetsujin.Models
             {
                 return false;
             }
-            var collection = DbConnection.db.GetCollection<Session>("sessions");
+            var collection = DbConnection.db.GetCollection<Session>("Session");
             var sessionManager = collection.Find<Session>(d => d.Id == token)
                                            .FirstOrDefault<Session>();
             var isLogin = (sessionManager == null) ? false : true;
@@ -98,23 +108,23 @@ namespace tetsujin.Models
         /// <param name="id">ユーザID</param>
         /// <param name="pw">パスワード</param>
         /// <param name="cookies">クッキー</param>
-        /// <returns>ログインが成功したかの真偽値</returns>
+        /// <returns>ログインの成否</returns>
         public static bool Login(string id, string pw, IResponseCookies cookies)
         {
-            var userCollection = DbConnection.db.GetCollection<BsonDocument>("masters");
-            var filter = Builders<BsonDocument>.Filter.Eq("_id", id);
-            var doc = userCollection.Find<BsonDocument>(filter).FirstOrDefault<BsonDocument>();
-            if (doc == null) // ユーザが登録されていない場合
+            var userCollection = DbConnection.db.GetCollection<Master>("Master");
+            var filter = Builders<Master>.Filter.Eq("_id", id);
+            var master = userCollection.Find<Master>(filter).FirstOrDefault<Master>();
+            if (master == null) // ユーザが登録されていない場合
             {
                 return false;
             }
             else // ユーザが登録されていた場合
             {
                 // パスワードをハッシュ化
-                var sha256 = GetSHA256(doc.GetValue("_id").AsString, pw);
+                var sha256 = GetSHA256(master.Id, pw);
 
                 // パスワードの一致確認
-                if (sha256 != doc.GetValue("pw").AsString)
+                if (sha256 != master.Password)
                 {
                     return false;
                 }
@@ -122,7 +132,7 @@ namespace tetsujin.Models
                 {
                     // トークンを使ってセッションを開始
                     var token = GetToken();
-                    var collection = DbConnection.db.GetCollection<Session>("sessions");
+                    var collection = DbConnection.db.GetCollection<Session>("Session");
                     collection.InsertOne(new Session
                     {
                         Id = token,
