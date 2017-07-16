@@ -55,6 +55,7 @@ namespace tetsujin.Controllers
                 };
             }
             ViewBag.entry = entry;
+            ViewBag.blobUrl = Startup.Configuration.GetSection("ConnectionStrings")["Blob"];
 
             return View(entry);
         }
@@ -73,7 +74,7 @@ namespace tetsujin.Controllers
         [Route("Profile/Edit")]
         public IActionResult EditProfile()
         {
-            ViewBag.profile = Sidebar.GetProfile();
+            ViewBag.profile = Profile.Get();
             return View();
         }
 
@@ -82,7 +83,7 @@ namespace tetsujin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult PostProfile()
         {
-            Sidebar.SaveProfile(Request.Form["body"]);
+            Profile.Save(Request.Form["body"]);
             return Redirect("/Master");
         }
 

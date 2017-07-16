@@ -8,10 +8,12 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using tetsujin.Models;
+using MangoFramework;
 
 namespace tetsujin.Models
 {
-    public class Entry
+    [MongoDoc]
+    public class Entry : MangoBase<Entry>
     {
         [BsonId]
         [BsonElement("_id")]
@@ -22,13 +24,11 @@ namespace tetsujin.Models
         [DisplayName("タイトル")]
         [BsonRepresentation(BsonType.String)]
         [BsonElement("title")]
-        [BsonRequired]
         public string Title { get; set; }
 
         [DisplayName("発行日時")]
         [BsonRepresentation(BsonType.DateTime)]
         [BsonElement("publishDate")]
-        [BsonRequired]
         [DataType(DataType.DateTime)]
         public DateTime PublishDate { get; set; }
 
@@ -42,14 +42,12 @@ namespace tetsujin.Models
 
         [DisplayName("本文")]
         [BsonRepresentation(BsonType.String)]
-        [BsonRequired]
         [BsonElement("body")]
         [DataType(DataType.MultilineText)]
         public string Body { get; set; }
 
         [DisplayName("掲載フラグ")]
         [BsonRepresentation(BsonType.Boolean)]
-        [BsonRequired]
         [BsonElement("isShown")]
         public bool IsShown { get; set; }
 
@@ -58,14 +56,14 @@ namespace tetsujin.Models
 
         public static int Count(bool isShown = false)
         {
-            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
+            var collection = DbConnection.db.GetCollection<BsonDocument>(Entry.CollectionName);
             var filter = Builders<BsonDocument>.Filter.Eq("isShown", !isShown);
             return Convert.ToInt32(collection.Count(filter));
         }
 
         public static int CountFiltered(List<string> tag, bool isShown = true)
         {
-            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
+            var collection = DbConnection.db.GetCollection<BsonDocument>(Entry.CollectionName);
             var filter = Builders<BsonDocument>.Filter.Eq("isShown", !isShown) &
                          Builders<BsonDocument>.Filter.In("tag", tag);
             return Convert.ToInt32(collection.Count(filter));
@@ -74,7 +72,7 @@ namespace tetsujin.Models
 
         public static Entry GetEntry(int id, bool admin = false)
         {
-            var collection = DbConnection.db.GetCollection<Entry>("Entry");
+            var collection = DbConnection.db.GetCollection<Entry>(Entry.CollectionName);
 
             FilterDefinition<Entry> filter;
             var f = Builders<Entry>.Filter;
@@ -100,7 +98,7 @@ namespace tetsujin.Models
 
         public static List<Entry> GetRecentEntry(int skip_n, bool admin = false, bool isSitemap = false)
         {
-            var collection = DbConnection.db.GetCollection<Entry>("Entry");
+            var collection = DbConnection.db.GetCollection<Entry>(Entry.CollectionName);
 
             var skip = skip_n * LIMIT;
 
@@ -136,7 +134,7 @@ namespace tetsujin.Models
 
         public static List<Entry> GetSameTagEntry(List<string> filterTag, int skip_n, int? excludeId = null)
         {
-            var collection = DbConnection.db.GetCollection<Entry>("Entry");
+            var collection = DbConnection.db.GetCollection<Entry>(Entry.CollectionName);
 
             var skip = skip_n * LIMIT;
 
@@ -155,7 +153,7 @@ namespace tetsujin.Models
             return entries;
         }
 
-        public bool InsertOrUpdate()
+        public void InsertOrUpdate()
         {
             if (EntryID == null)
             {
@@ -167,12 +165,11 @@ namespace tetsujin.Models
             }
 
             UpdateSubInfo();
-            return true;
         }
 
-        public bool Insert()
+        public void Insert()
         {
-            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
+            var collection = DbConnection.db.GetCollection<BsonDocument>(Entry.CollectionName);
 
             var sortDoc = Builders<BsonDocument>.Sort.Descending("_id");
             var d = collection.Find<BsonDocument>(new BsonDocument { })
@@ -184,46 +181,38 @@ namespace tetsujin.Models
 
             this.EntryID = (int)id;
             collection.InsertOne(this.ToBsonDocument());
-
-            return true;
         }
 
-        public bool Update()
+        public void Update()
         {
             Tag.RemoveAll((item) => item == null);
 
-            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
+            var collection = DbConnection.db.GetCollection<BsonDocument>(Entry.CollectionName);
 
             var filter = Builders<BsonDocument>.Filter.Eq("_id", EntryID);
             collection.ReplaceOne(filter, this.ToBsonDocument());
-
-            return true;
         }
 
-        public static bool DeleteMany(List<int> ids)
+        public static void DeleteMany(List<int> ids)
         {
-            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
+            var collection = DbConnection.db.GetCollection<BsonDocument>(Entry.CollectionName);
 
             var filter = Builders<BsonDocument>.Filter.In("_id", ids);
             collection.DeleteMany(filter);
 
             UpdateSubInfo();
-
-            return true;
         }
 
         
-        public static bool UpdateSubInfo()
+        private static void UpdateSubInfo()
         {
-            EntryStatistics.MapReduceTag();
-            EntryStatistics.MapReduceDate();
-
-            return true;
+            TagGroupedSummary.MapReduce();
+            DateGroupedSummary.MapReduce();
         }
 
-        public static List<Entry> FilterByMonth(int year, int month, int skip = 0)
+        public static List<Entry> FilterByMonth(int year, int month)
         {
-            var collection = DbConnection.db.GetCollection<Entry>("Entry");
+            var collection = DbConnection.db.GetCollection<Entry>(Entry.CollectionName);
 
             var dateMin = new DateTime(year, month, 1);
             var dateMax = dateMin.AddMonths(1);
@@ -233,12 +222,18 @@ namespace tetsujin.Models
             filter = f.Eq(e => e.IsShown, true) &
                      f.Gte(e => e.PublishDate, dateMin) &
                      f.Lt(e => e.PublishDate, dateMax);
-
+            var fields = Builders<Entry>.Projection.Include(e => e.EntryID)
+                                                   .Include(e => e.PublishDate)
+                                                   .Include(e => e.Tag)
+                                                   .Include(e => e.Title);
             var sortDoc = new BsonDocument
             {
                 { "publishDate", -1 },
             };
-            var entries = collection.Find<Entry>(filter).Sort(sortDoc).Limit(LIMIT).Skip(LIMIT * skip).ToList();
+            var entries = collection.Find<Entry>(filter)
+                                    .Project<Entry>(fields)
+                                    .Sort(sortDoc)
+                                    .ToList();
 
             return entries;
         }
@@ -249,7 +244,7 @@ namespace tetsujin.Models
             var dayInMonth = DateTime.DaysInMonth(year, month);
             var dateMax = dateMin.AddMonths(1);
 
-            var collection = DbConnection.db.GetCollection<BsonDocument>("Entry");
+            var collection = DbConnection.db.GetCollection<BsonDocument>(Entry.CollectionName);
             var filter = Builders<BsonDocument>.Filter.Eq("isShown", isShown) &
                          Builders<BsonDocument>.Filter.Gte("publishDate", dateMin) &
                          Builders<BsonDocument>.Filter.Lt("publishDate", dateMax);

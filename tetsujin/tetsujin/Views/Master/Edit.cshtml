@@ -2,7 +2,6 @@
 @{
     Layout = "/Views/Shared/_AdminLayout.cshtml";
     ViewBag.Title = "Edit | Admin Page";
-
 }
 
 <form action="/Master/Edit" method="post">
@@ -93,7 +92,7 @@
             for (var key in obj) {
                 (function () {
                     var img = document.createElement("IMG");
-                    img.src = "https://meursault.blob.core.windows.net/blog/" + obj[key]["nm"];
+                    img.src = "@ViewBag.blobUrl" + obj[key]["nm"];
                     img.dataset.width = obj[key]["w"];
                     img.dataset.height = obj[key]["h"];
                     img.width = 250;

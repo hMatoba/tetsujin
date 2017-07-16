@@ -1,18 +1,135 @@
-﻿<!DOCTYPE html>
-<html>
+﻿@using tetsujin.Models;
+@{
+    var skip = 0;
+    var recentEntry = Entry.GetRecentEntry(skip);
+
+    var tag = ViewBag.tag;
+    var sameTagEntry = (List<Entry>)null;
+    var id = (ViewBag.id == null) ? null : ViewBag.id;
+    if (tag != null)
+    {
+        sameTagEntry = Entry.GetSameTagEntry(tag, 0, id);
+    };
+
+    var tagInfo = TagGroupedSummary.Get();
+    var sortedTagInfo = tagInfo.OrderBy((x) => x.Key);
+
+    var dateInfo = DateGroupedSummary.Get();
+    var sortedDateInfo = dateInfo.OrderByDescending((x) => x.Key);
+
+    if (ViewBag.page == 0 && ViewBag.pagePath == "/Page")
+    {
+        ViewBag.desc = "C#やPythonをメインにプログラミングに関して。AzureやDockerでのWebアプリ開発やツールとしての活用方法などを勉強したり考えたり。";
+    }
+    else
+    {
+
+        ViewBag.desc = "";
+    }
+}
+<!DOCTYPE html>
+<html lang="ja">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - tetsujin</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @if (ViewBag.desc != "")
+    {
+        <meta name="description" content="@ViewBag.desc">
+    }
+    <title>@ViewBag.Title - Living Absurd World</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&amp;subset=latin,cyrillic" rel="stylesheet" type="text/css">
+    <link href="/css/style.min.css" rel="stylesheet" />
+    @*<script src="/js/ga.js"></script>*@
 </head>
 <body>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - tetsujin</p>
-        </footer>
+    <div id="container" class="row">
+
+        <div id="sidebar" class="col-md-3">
+
+            <header>
+                <h2 id="title"><a href="/">Living Absurd World!</a></h2>
+            </header>
+
+            <div class="sidebar-profile">
+                <div class="sidebar-title">
+                    プロフィール
+                </div>
+                <div class="sidebar-body small">
+                    @Html.Raw(Profile.Get())
+                </div>
+            </div>
+
+            @if (tag != null)
+            {
+                <div class="sidebar-recomended">
+                    <div class="sidebar-title">
+                        関連
+                    </div>
+                    <div class="sidebar-body">
+                        @foreach (var entry in sameTagEntry)
+                        {
+                            <div class="underline">
+                                <a class="col-link" href="/Entry/@entry.EntryID">
+                                    @entry.Title
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="sidebar-recent">
+                <div class="sidebar-title">
+                    新着
+                </div>
+                <div class="sidebar-body">
+                    @foreach (var entry in recentEntry)
+                    {
+                        <div class="underline">
+                            <a class="col-link" href="/Entry/@entry.EntryID">
+                                @entry.Title
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="sidebar-tag">
+                <div class="sidebar-title">
+                    タグ
+                </div>
+                <div class="sidebar-body">
+                    @foreach (var v in sortedTagInfo)
+                    {
+                        <div>
+                            <a class="col-link" href="/Filter/Tag/@Uri.EscapeDataString(v.Key)">@v.Key (@v.Value)</a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="sidebar-date">
+                <div class="sidebar-title">
+                    月別
+                </div>
+                <div class="sidebar-body">
+                    @foreach (var v in sortedDateInfo)
+                    {
+                        <div>
+                            <a class="col-link" href="/Filter/Date/@v.Key.Replace('/', '-')">@v.Key (@v.Value)</a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+
+        </div>
+
+        <div id="entry" class="col-md-9">
+            @RenderBody()
+        </div>
+
     </div>
+
 </body>
 </html>

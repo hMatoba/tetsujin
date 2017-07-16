@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "インデックス";
+}
+
+@foreach (var entry in ViewBag.entries)
+{
+    <article class="entry">
+        <h2 class="entry-title"><a href="/Entry/@entry.EntryID">@entry.Title</a></h2>
+        <div class="entry-date">@Html.Raw(entry.PublishDate.ToString("yyyy.MM.dd"))</div>
+        <div class="entry-tag">
+            <b>
+                タグ:
+                @foreach (var t in @entry.Tag)
+                {
+                    <a class="btn" href="/Filter/Tag/@Uri.EscapeDataString(t)">@t</a>
+                }
+            </b>
+        </div>
+    </article>
+}
+
