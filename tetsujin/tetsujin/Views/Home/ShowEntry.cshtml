@@ -1,5 +1,5 @@
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "/Views/Shared/_RtdDoc.cshtml";
     ViewBag.Title = ViewBag.entry.Title;
     ViewBag.tag = ViewBag.entry.Tag;
 }
@@ -11,7 +11,7 @@
         タグ:
         @foreach (var t in @ViewBag.entry.Tag)
         {
-            <a class="btn btn-primary btn-xs" href="/Filter/Tag/@Uri.EscapeDataString(t)">@t</a>
+            <a class="myButton" href="/Filter/Tag/@Uri.EscapeDataString(t)">@t</a>
         }
     </div>
     <div class="entry-body">

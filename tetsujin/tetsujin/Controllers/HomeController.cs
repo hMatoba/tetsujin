@@ -105,6 +105,7 @@ namespace tetsujin.Controllers
             if (entry != null)
             {
                 ViewBag.entry = entry;
+                ViewBag.id = id;
                 return View();
             }
             else

@@ -1,17 +1,4 @@
 ﻿@charset "UTF-8";
-html, body {
-  margin: 0px;
-  padding: 0px;
-  font-size: 16px;
-  font-family: "Lato","proxima-nova","Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, "ＭＳ ゴシック", sans-serif;
-  color: #404040;
-  width: 100%;
-  min-height: 100%;
-  overflow-x: hidden; }
-
-a {
-  word-break: break-all; }
-
 #container {
   position: absolute;
   max-width: 100%;
@@ -38,8 +25,7 @@ a {
 
 #pageLink {
   text-align: left;
-  padding-bottom: 25px;
-  width: 600px; }
+  padding-bottom: 25px; }
 
 #sidebar {
   color: white;
@@ -78,11 +64,8 @@ a {
   color: #ffffff;
   text-decoration: none; }
 
-#sidebar .sidebar-title {
-  background: #1a1a1a;
-  color: white;
-  padding: 3px;
-  padding-left: 9px; }
+.sidebar-title {
+  background-color: #444; }
 
 #sidebar .sidebar-body {
   color: #ffffff;
@@ -93,6 +76,16 @@ a {
 
 #sidebar .underline {
   border-bottom: 1px dotted darkcyan; }
+
+.sidebar-profile {
+  color: gray;
+  font-size: 90%;
+  line-height: 18px; }
+  .sidebar-profile .sidebar-title {
+    padding: .4045em 1.618em;
+    background-color: #444; }
+  .sidebar-profile .sidebar-body {
+    padding: .4045em 1.618em; }
 
 #entry {
   position: relative;
@@ -112,11 +105,7 @@ a {
 
 .entry {
   margin-top: 10px;
-  margin-bottom: 20px;
-  border-bottom: solid;
-  border-width: 1px;
-  border-color: #999;
-  width: 600px; }
+  margin-bottom: 20px; }
 
 .entry .entry-tag {
   font-size: 90%; }
@@ -171,7 +160,7 @@ code {
   border: 1px solid #ccc;
   padding: 3px; }
 
-.btn {
+.myButton {
   white-space: nowrap;
   background-color: darkblue;
   color: antiquewhite;
