@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   tetsujin:
@@ -6,18 +6,3 @@ services:
     build:
       context: ./tetsujin
       dockerfile: Dockerfile
-    ports:
-      - "5001:5001"
-    labels:
-      - "com.microsoft.visualstudio.targetoperatingsystem=linux"
-
-  proxy:
-    build:
-      context:  ./nginx
-      dockerfile: Dockerfile
-    ports:
-      - "443:443"
-    links:
-      - tetsujin
-    labels:
-      - "com.microsoft.visualstudio.targetoperatingsystem=linux"
