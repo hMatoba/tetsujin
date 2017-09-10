@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using MangoFramework;
+using Microsoft.Net.Http.Headers;
 
 namespace tetsujin
 {
@@ -62,7 +63,14 @@ namespace tetsujin
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+                        "public,max-age=2592000";
+                }
+            });
 
             app.UseMvc();
         }
