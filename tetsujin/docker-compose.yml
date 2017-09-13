@@ -2,7 +2,7 @@ version: '3'
 
 services:
   tetsujin:
-    image: tetsujin
+    image: matoba/tetsujin
     build:
       context: ./tetsujin
       dockerfile: Dockerfile
