@@ -4,7 +4,7 @@
     <ProjectVersion>2.0</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>2bf39b58-78d5-40b6-845d-30eb1e6dae39</ProjectGuid>
-    <DockerLaunchBrowser>True</DockerLaunchBrowser>
+    <DockerLaunchBrowser>false</DockerLaunchBrowser>
     <DockerServiceUrl>http://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>tetsujin</DockerServiceName>
   </PropertyGroup>
