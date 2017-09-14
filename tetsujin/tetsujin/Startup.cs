@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
+using Microsoft.Net.Http.Headers;
 
 namespace tetsujin
 {
@@ -39,11 +42,15 @@ namespace tetsujin
 
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
+            app.UseMvc();
+
+            app.UseStaticFiles(new StaticFileOptions
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+                        "public,max-age=2592000";
+                }
             });
         }
     }
