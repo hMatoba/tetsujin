@@ -17,6 +17,9 @@ namespace tetsujin
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            var dbName = "blog";
+            DbConnection.Connect(configuration.GetValue<string>("MONGO_CONNECTION"), dbName);
         }
 
         public IConfiguration Configuration { get; }
