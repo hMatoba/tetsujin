@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using Microsoft.Net.Http.Headers;
+using tetsujin.Models;
+using MangoFramework;
 
 namespace tetsujin
 {
@@ -18,8 +20,15 @@ namespace tetsujin
         {
             Configuration = configuration;
 
+            // DB接続確立
             var dbName = "blog";
             DbConnection.Connect(configuration.GetValue<string>("MONGO_CONNECTION"), dbName);
+
+            // 宣言されたモデルからDBにコレクションを作る
+            MongoInitializer.Run(DbConnection.Db, "tetsujin");
+
+            // ユーザパスワードのハッシュキー
+            Session.Hashkey = configuration.GetValue<string>("HASHKEY");
         }
 
         public IConfiguration Configuration { get; }

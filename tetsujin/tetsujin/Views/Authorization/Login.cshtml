@@ -1,0 +1,10 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Login";
+}
+
+<form action="/Auth/Login" method="post">
+    <input type="text" name="_id" /><br />
+    <input type="password" name="password" /><br />
+    <input type="submit" name="enter" value="Login" />
+</form>
