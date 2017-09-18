@@ -1,0 +1,63 @@
+﻿@model tetsujin.Models.Entry
+@{
+    Layout = "/Views/Shared/_MasterLayout.cshtml";
+    ViewBag.Title = "Edit | Master Page";
+}
+
+<form action="/Master/Edit" method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="EntryID" value="@ViewBag.entry.EntryID" />
+
+
+
+    <div>
+        @Html.LabelFor(model => model.Title)
+        <div>
+            @Html.EditorFor(model => model.Title,
+                            new { htmlAttributes = new { @class = "edit-input" } })
+        </div>
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.PublishDate)
+        <div>
+            @Html.EditorFor(model => model.PublishDate)
+        </div>
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model._Tag)
+        <div>
+            @Html.EditorFor(model => model._Tag,
+                            new { htmlAttributes = new { @class = "edit-input" } })
+        </div>
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.Body)
+        <div>
+            @Html.EditorFor(model => model.Body,
+                            new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @cols = "60",
+                                    @rows = "20",
+                                    @ondrop = "drop(event, this)",
+                                    @ondragover = "allowDrop(event)"
+                                }
+                            })
+            <div id="images"></div>
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.IsShown)
+        @Html.EditorFor(model => model.IsShown)
+    </div>
+
+    <input type="submit" value="post">
+
+</form>
+
