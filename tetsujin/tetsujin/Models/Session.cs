@@ -20,7 +20,7 @@ namespace tetsujin.Models
             set { Session.hashkey = value; }
             get
             {
-                if (Session.hashkey == "" || Session.hashkey == null)
+                if (String.IsNullOrEmpty(Session.hashkey))
                 {
                     throw new ArgumentNullException("Hashkey for session isn't given. Set hashkey in environment value as 'HASHKEY'.");
                 }
