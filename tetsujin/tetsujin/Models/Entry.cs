@@ -61,6 +61,13 @@ namespace tetsujin.Models
             return Convert.ToInt32(collection.Count(filter));
         }
 
+        public static int CountFiltered(List<string> tag, bool isShown = true)
+        {
+            var collection = DbConnection.Db.GetCollection<BsonDocument>(Entry.CollectionName);
+            var filter = Builders<BsonDocument>.Filter.Eq("isShown", !isShown) &
+                         Builders<BsonDocument>.Filter.In("tag", tag);
+            return Convert.ToInt32(collection.Count(filter));
+        }
 
         public static Entry GetEntry(int id, bool admin = false)
         {
@@ -101,7 +108,7 @@ namespace tetsujin.Models
                 Update();
             }
 
-            //UpdateSubInfo();
+            UpdateSubInfo();
         }
 
         public void Insert()
@@ -173,7 +180,70 @@ namespace tetsujin.Models
             var filter = Builders<BsonDocument>.Filter.In("_id", ids);
             collection.DeleteMany(filter);
 
-            //UpdateSubInfo();
+            UpdateSubInfo();
+        }
+
+        private static void UpdateSubInfo()
+        {
+            TagSummary.MapReduce();
+            DateSummary.MapReduce();
+        }
+
+        public static List<Entry> GetSameTagEntry(List<string> filterTag, int skip_n, int? excludeId = null)
+        {
+            var collection = DbConnection.Db.GetCollection<Entry>(Entry.CollectionName);
+
+            var skip = skip_n * LIMIT;
+
+            FilterDefinition<Entry> filter;
+            var f = Builders<Entry>.Filter;
+            filter = f.Eq(e => e.IsShown, true) &
+                     f.Ne(e => e.EntryID, excludeId) &
+                     f.AnyIn(e => e.Tag, filterTag);
+
+            var sortDoc = new BsonDocument
+            {
+                { "publishDate", -1 },
+            };
+            var entries = collection.Find<Entry>(filter).Sort(sortDoc).Limit(LIMIT).Skip(skip).ToList();
+
+            return entries;
+        }
+
+        public static List<Entry> FilterByMonth(int year, int month)
+        {
+            var collection = DbConnection.Db.GetCollection<Entry>(Entry.CollectionName);
+
+            var dateMin = new DateTime(year, month, 1);
+            var dateMax = dateMin.AddMonths(1);
+
+            FilterDefinition<Entry> filter;
+            var f = Builders<Entry>.Filter;
+            filter = f.Eq(e => e.IsShown, true) &
+                     f.Gte(e => e.PublishDate, dateMin) &
+                     f.Lt(e => e.PublishDate, dateMax);
+            var sortDoc = new BsonDocument
+            {
+                { "publishDate", -1 },
+            };
+            var entries = collection.Find<Entry>(filter)
+                                    .Sort(sortDoc)
+                                    .ToList();
+
+            return entries;
+        }
+
+        public static int CountDateFiltered(int year, int month, bool isShown = true)
+        {
+            var dateMin = new DateTime(year, month, 1);
+            var dayInMonth = DateTime.DaysInMonth(year, month);
+            var dateMax = dateMin.AddMonths(1);
+
+            var collection = DbConnection.Db.GetCollection<BsonDocument>(Entry.CollectionName);
+            var filter = Builders<BsonDocument>.Filter.Eq("isShown", isShown) &
+                         Builders<BsonDocument>.Filter.Gte("publishDate", dateMin) &
+                         Builders<BsonDocument>.Filter.Lt("publishDate", dateMax);
+            return Convert.ToInt32(collection.Count(filter));
         }
     }
 

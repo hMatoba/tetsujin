@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "/Views/Shared/_RtdDoc.cshtml";
+    Layout = "/Views/Shared/_DocFrame.cshtml";
     ViewBag.Title = "インデックス";
 }
 
@@ -13,7 +13,7 @@
                 タグ:
                 @foreach (var t in @entry.Tag)
                 {
-                    <a class="myButton" href="/Filter/Tag/@Uri.EscapeDataString(t)">@t</a>
+                    <a class="btn" href="/Filter/Tag/@Uri.EscapeDataString(t)">@t</a>
                 }
             </b>
         </div>
@@ -24,8 +24,6 @@
             comment: 0
         </div>
     </article>
-
-    <hr />
 }
 
 @ViewBag._page
@@ -37,23 +35,24 @@
         {
             @if (i != 1)
             {
-                <span class="page"><a href="@ViewBag.pagePath/@i">@i</a></span>
+                <label class="page"><a href="@ViewBag.pagePath/@i">@i</a></label>
             }
             else
             {
                 @if (ViewBag.pagePath == "/Page")
                 {
-                    <span class="page"><a href="/">1</a></span>
+                    <label class="page"><a href="/">1</a></label>
                 }
                 else
                 {
-                    <span class="page"><a href="@ViewBag.pagePath">1</a></span>
+                    <label class="page"><a href="@ViewBag.pagePath">1</a></label>
                 }
             }
         }
         else
         {
-            <span class="page">@i</span>
+            <label class="page">@i</label>
         }
     }
 </div>
+
