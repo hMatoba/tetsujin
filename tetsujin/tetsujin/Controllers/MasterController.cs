@@ -9,10 +9,11 @@ using tetsujin.Filters;
 
 namespace tetsujin.Controllers
 {
+    [AuthorizationFilter]
     [Route("Master")]
     public class MasterController : Controller
     {
-        [AuthorizationFilter]
+        
         [Route("")]
         public IActionResult Index()
         {
