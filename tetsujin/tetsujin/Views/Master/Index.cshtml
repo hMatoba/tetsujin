@@ -2,4 +2,36 @@
     Layout = "/Views/Shared/_MasterLayout.cshtml";
     ViewBag.Title = "Admin Page";
 }
-管理者用だよ
+
+<form method="post" action="/Master/Remove">
+    <table>
+        <tr>
+            <th width="100">作成日</th>
+            <th width="300">タイトル</th>
+        </tr>
+        @foreach (var entry in ViewBag.entries)
+        {
+            <tr>
+                <td>
+                    <span>@Html.Raw(entry.PublishDate.ToString("yyyy-MM-dd"))</span>
+                </td>
+                <td>
+                    <a href="/Master/Edit/@entry.EntryID">@entry.Title</a>
+                </td>
+                <td>
+                    <input type="checkbox" name="entryId[]" value="@entry.EntryID" />
+                </td>
+            </tr>
+
+        }
+    </table>
+
+    <input type="submit" value="Remove" />
+</form>
+
+<div id="pageLink">
+    @for (var i = 1; i < ViewBag.lastPage + 1; i++)
+    {
+        <a href="/Master/@i"><label class="page">@i</label></a>
+    }
+</div>

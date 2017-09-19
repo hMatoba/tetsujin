@@ -13,10 +13,14 @@ namespace tetsujin.Controllers
     [Route("Master")]
     public class MasterController : Controller
     {
-        
-        [Route("")]
-        public IActionResult Index()
+        [Route("{page:int?}")]
+        public IActionResult Index(int? page = 1)
         {
+            page--;
+            ViewBag.page = page;
+            ViewBag.entries = Entry.GetRecentEntries((int)page, true);
+            ViewBag.lastPage = System.Math.Ceiling((double)Entry.Count() / Entry.LIMIT);
+
             return View();
         }
 
@@ -49,6 +53,17 @@ namespace tetsujin.Controllers
         public IActionResult EditPost(Entry entry)
         {
             entry.InsertOrUpdate();
+            return View();
+        }
+
+        [Route("Remove")]
+        [HttpPost]
+        public IActionResult Remove()
+        {
+            var ids = Request.Form["entryId[]"].Select((a) => Int32.Parse(a)).ToList();
+            Entry.DeleteMany(ids);
+            ViewBag.count = Request.Form["entryId[]"].Count;
+
             return View();
         }
     }

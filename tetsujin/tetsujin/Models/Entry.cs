@@ -52,6 +52,16 @@ namespace tetsujin.Models
         [BsonElement("isShown")]
         public bool IsShown { get; set; }
 
+        public static int LIMIT { get; } = 5;
+
+        public static int Count(bool isShown = false)
+        {
+            var collection = DbConnection.Db.GetCollection<BsonDocument>(Entry.CollectionName);
+            var filter = Builders<BsonDocument>.Filter.Eq("isShown", !isShown);
+            return Convert.ToInt32(collection.Count(filter));
+        }
+
+
         public static Entry GetEntry(int id, bool admin = false)
         {
             var collection = DbConnection.Db.GetCollection<Entry>(Entry.CollectionName);
@@ -90,6 +100,8 @@ namespace tetsujin.Models
             {
                 Update();
             }
+
+            //UpdateSubInfo();
         }
 
         public void Insert()
@@ -117,6 +129,52 @@ namespace tetsujin.Models
             collection.ReplaceOne(filter, this);
         }
 
+
+        public static List<Entry> GetRecentEntries(int skip_n, bool admin = false, bool isSitemap = false)
+        {
+            var collection = DbConnection.Db.GetCollection<Entry>(Entry.CollectionName);
+
+            var skip = skip_n * LIMIT;
+
+            FilterDefinition<Entry> filter;
+            if (admin)
+            {
+                filter = new BsonDocument { };
+            }
+            else
+            {
+                var f = Builders<Entry>.Filter;
+                filter = f.Eq(e => e.IsShown, true);
+            }
+
+            var sortDoc = new BsonDocument
+            {
+                { "publishDate", -1 },
+            };
+
+            int limit;
+            if (!isSitemap)
+            {
+                limit = LIMIT;
+            }
+            else
+            {
+                limit = 10000;
+            }
+            var entries = collection.Find<Entry>(filter).Sort(sortDoc).Limit(limit).Skip(skip).ToList();
+
+            return entries;
+        }
+
+        public static void DeleteMany(List<int> ids)
+        {
+            var collection = DbConnection.Db.GetCollection<BsonDocument>(Entry.CollectionName);
+
+            var filter = Builders<BsonDocument>.Filter.In("_id", ids);
+            collection.DeleteMany(filter);
+
+            //UpdateSubInfo();
+        }
     }
 
 }
