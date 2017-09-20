@@ -1,16 +1,15 @@
-﻿using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace tetsujin.Models
 {
-    public class Sidebar
+    public class Profile
     {
-        public static string GetProfile()
+        public static string CollectionName = "Profile";
+
+        public static string Get()
         {
-            var collection = DbConnection.Db.GetCollection<BsonDocument>("profile");
+            var collection = DbConnection.Db.GetCollection<BsonDocument>(CollectionName);
             var result = collection.Find<BsonDocument>(new BsonDocument { });
             var doc = result.FirstOrDefault();
             if (doc == null)
@@ -21,13 +20,14 @@ namespace tetsujin.Models
             return body;
         }
 
-        public static bool SaveProfile(string body)
+        public static bool Save(string body)
         {
-            var collection = DbConnection.Db.GetCollection<BsonDocument>("profile");
+            var collection = DbConnection.Db.GetCollection<BsonDocument>(CollectionName);
             var filter = Builders<BsonDocument>.Filter.Eq("_id", "prof");
             var builder = Builders<BsonDocument>.Update;
             var doc = builder.Set("body", body);
-            collection.UpdateOne(filter, doc);
+            var options = new UpdateOptions { IsUpsert = true };
+            collection.UpdateOne(filter, doc, options);
             return true;
         }
 

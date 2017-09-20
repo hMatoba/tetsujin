@@ -66,5 +66,21 @@ namespace tetsujin.Controllers
 
             return View();
         }
+
+        [Route("Profile/Edit")]
+        public IActionResult EditProfile()
+        {
+            ViewBag.profile = Profile.Get();
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Profile/Edit")]
+        [ValidateAntiForgeryToken]
+        public IActionResult PostProfile()
+        {
+            Profile.Save(Request.Form["body"]);
+            return Redirect("/Master");
+        }
     }
 }
