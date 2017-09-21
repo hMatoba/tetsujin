@@ -29,6 +29,11 @@ namespace tetsujin
 
             // ユーザパスワードのハッシュキー
             Session.Hashkey = configuration.GetValue<string>("HASHKEY");
+
+            var storageAccount = configuration.GetValue<string>("STRORAGE_ACCOUNT");
+            var storageKey = configuration.GetValue<string>("STRORAGE_KEY");
+            var storageUrl = configuration.GetValue<string>("STRORAGE_URL");
+            BlobFile.SetAccountInfo(storageAccount, storageKey, storageUrl);
         }
 
         public IConfiguration Configuration { get; }

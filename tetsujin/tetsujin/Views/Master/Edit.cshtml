@@ -2,6 +2,7 @@
 @{
     Layout = "/Views/Shared/_MasterLayout.cshtml";
     ViewBag.Title = "Edit | Master Page";
+    var blobUrl = tetsujin.Models.BlobFile.Url;
 }
 
 <form action="/Master/Edit" method="post">
@@ -60,4 +61,126 @@
     <input type="submit" value="post">
 
 </form>
+
+<button id="imageButton">Show Images</button>
+<button id="linkButton">Add link tag</button>
+<button id="replaceButton">Code Title</button>
+
+<script>
+    var pointerKeeper = 0;
+    document.getElementById("Body")
+            .addEventListener("blur", function () {
+                pointerKeeper = document.getElementById("Body").selectionStart;
+            });
+
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData('text/html', ev.target.src);
+    }
+
+    function drop(ev, target) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text/html");
+        console.log(data);
+        var imgTag = `<img class='img' src='${data}' />\n`;
+        var text = target.value;
+        target.value = text.substr(0, pointerKeeper) + imgTag + text.substr(pointerKeeper);
+    }
+
+    document.getElementById("imageButton").addEventListener("click", function () {
+        var xhr = new XMLHttpRequest();
+        xhr.open("get", "/Master/Images/Info");
+        xhr.responseType = "json";
+        xhr.addEventListener("load", function () {
+            var obj = xhr.response;
+            for (var key in obj) {
+                (function () {
+                    var img = document.createElement("IMG");
+                    img.src = "@blobUrl" + obj[key]["nm"];
+                    img.dataset.width = obj[key]["w"];
+                    img.dataset.height = obj[key]["h"];
+                    img.width = 250;
+                    img.className = "img";
+                    img.draggable = true;
+                    img.addEventListener("dragstart", drag);
+                    document.getElementById("images").appendChild(img);
+                })();
+            }
+
+        });
+        xhr.send();
+    });
+
+    document.getElementById("linkButton").addEventListener("click", function () {
+        var imgTag = "<a href='' target='_blank'></a>\n";
+        var target = document.getElementById("Body");
+        var text = target.value;
+        target.value = text.substr(0, pointerKeeper) + imgTag + text.substr(pointerKeeper);
+    });
+
+    function getInputSelection(el) {
+        var start = 0, end = 0, normalizedValue, range,
+            textInputRange, len, endRange;
+
+        if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
+            start = el.selectionStart;
+            end = el.selectionEnd;
+        } else {
+            range = document.selection.createRange();
+
+            if (range && range.parentElement() == el) {
+                len = el.value.length;
+                normalizedValue = el.value.replace(/\r\n/g, "\n");
+
+                // Create a working TextRange that lives only in the input
+                textInputRange = el.createTextRange();
+                textInputRange.moveToBookmark(range.getBookmark());
+
+                // Check if the start and end of the selection are at the very end
+                // of the input, since moveStart/moveEnd doesn't return what we want
+                // in those cases
+                endRange = el.createTextRange();
+                endRange.collapse(false);
+
+                if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
+                    start = end = len;
+                } else {
+                    start = -textInputRange.moveStart("character", -len);
+                    start += normalizedValue.slice(0, start).split("\n").length - 1;
+
+                    if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
+                        end = len;
+                    } else {
+                        end = -textInputRange.moveEnd("character", -len);
+                        end += normalizedValue.slice(0, end).split("\n").length - 1;
+                    }
+                }
+            }
+        }
+
+        return {
+            start: start,
+            end: end
+        };
+    }
+
+    function replaceSelectedText(el) {
+        var sel = getInputSelection(el);
+        if (sel.start == sel.end) {
+            return;
+        }
+        var val = el.value;
+        var selected = val.slice(sel.start, sel.end);
+        var tagged = "<span class='code_title'>" + selected + "</span>";
+        el.value = val.slice(0, sel.start) + tagged + val.slice(sel.end);
+    }
+
+    document.getElementById("replaceButton").addEventListener("click", function () {
+        var el = document.getElementById("Body");
+        replaceSelectedText(el);
+    });
+</script>
 

@@ -82,5 +82,30 @@ namespace tetsujin.Controllers
             Profile.Save(Request.Form["body"]);
             return Redirect("/Master");
         }
+
+        [HttpGet]
+        [Route("Images")]
+        public IActionResult ImageForm()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Images")]
+        public async Task<string> SaveImagesAsync()
+        {
+            var files = Request.Form.Files.ToList();
+            await BlobFile.SaveImagesAsync(files);
+
+            return "ok";
+        }
+
+        [HttpGet]
+        [Route("Images/Info")]
+        public async Task<ActionResult> GetImageInfoAsync()
+        {
+            var json = await BlobFile.GetImageInfoAsync();
+            return Content(json, "application/json");
+        }
     }
 }
