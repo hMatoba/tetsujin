@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tetsujin", "tetsujin\tetsuj
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2BF39B58-78D5-40B6-845D-30EB1E6DAE39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "..\UnitTestProject\UnitTestProject.csproj", "{079FE0C7-74A5-4B3A-819A-550FE7612E75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2BF39B58-78D5-40B6-845D-30EB1E6DAE39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BF39B58-78D5-40B6-845D-30EB1E6DAE39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BF39B58-78D5-40B6-845D-30EB1E6DAE39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{079FE0C7-74A5-4B3A-819A-550FE7612E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{079FE0C7-74A5-4B3A-819A-550FE7612E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{079FE0C7-74A5-4B3A-819A-550FE7612E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{079FE0C7-74A5-4B3A-819A-550FE7612E75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
