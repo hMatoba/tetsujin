@@ -1,0 +1,38 @@
+language: csharp
+mono: none
+dotnet: 1.0.4
+dist: trusty
+services:
+  - docker
+
+env:
+  - DOCKER_COMPOSE_VERSION=1.8.0
+
+before_install:
+ - sudo rm /usr/local/bin/docker-compose
+ - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+ - chmod +x docker-compose
+ - sudo mv docker-compose /usr/local/bin
+ - docker-compose -f docker-compose.travis.yml config
+ - docker-compose -f docker-compose.travis.yml build
+ - docker-compose -f docker-compose.travis.yml up -d
+ - sudo pip install selenium
+
+script:
+ - cd ./TestWithSelenium
+ - python setup.py test
+
+after_success:
+ - cd ..
+ - docker tag matoba/dncindocker:ci matoba/dncindocker:latest
+ - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
+ - docker push matoba/dncindocker:latest
+ - wget https://hyper-install.s3.amazonaws.com/hyper-linux-x86_64.tar.gz
+ - tar xzf hyper-linux-x86_64.tar.gz
+ - mv -f docker-compose.hyper.yml docker-compose.yml
+ - cat docker-compose.yml
+ - ./hyper config --accesskey ${HYPER_ACCESS} --secretkey ${HYPER_KEY}
+ - ./hyper compose down -p cdcc
+ - ./hyper compose up -d -p cdcc
+matrix:
+  fast_finish: true

@@ -9,6 +9,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "..\UnitTestProject\UnitTestProject.csproj", "{079FE0C7-74A5-4B3A-819A-550FE7612E75}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "SeleniumTest", "SeleniumTest\SeleniumTest.pyproj", "{6F396102-D104-4C48-95DF-5A819ABEAFDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,8 @@ Global
 		{079FE0C7-74A5-4B3A-819A-550FE7612E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{079FE0C7-74A5-4B3A-819A-550FE7612E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{079FE0C7-74A5-4B3A-819A-550FE7612E75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F396102-D104-4C48-95DF-5A819ABEAFDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F396102-D104-4C48-95DF-5A819ABEAFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
