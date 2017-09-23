@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  webapp:
+    image: matoba/tetsujin:ci
+  ssldevenv:
+    image: matoba/ssldevenv
+    ports:
+      - "443:443"
+    links:
+      - tetsujin:webapp
+  selenium:
+    image: selenium/standalone-chrome:3.4
+    ports:
+      - "4444:4444"
+    links:
+      - ssldevenv:proxy
+  mymongo:
+    image: mongo
+    ports:
+      - "27017:27017"
