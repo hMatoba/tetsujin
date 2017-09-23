@@ -28,7 +28,7 @@ namespace tetsujin.Controllers
             else
             {
                 Response.StatusCode = 404;
-                return View("Error/NotFound");
+                return View("NotFound");
             }
         }
 
@@ -49,7 +49,7 @@ namespace tetsujin.Controllers
             else
             {
                 Response.StatusCode = 404;
-                return View("Error/NotFound");
+                return View("NotFound");
             }
         }
 
@@ -95,7 +95,7 @@ namespace tetsujin.Controllers
             else
             {
                 Response.StatusCode = 404;
-                return View("Error/NotFound");
+                return View("NotFound");
             }
         }
 
@@ -112,7 +112,7 @@ namespace tetsujin.Controllers
             else
             {
                 Response.StatusCode = 404;
-                return View("/Error/NotFound");
+                return View("NotFound");
             }
         }
 
@@ -128,7 +128,7 @@ namespace tetsujin.Controllers
         [Route("{*path}")]
         public IActionResult Error()
         {
-            return View("/Error/NotFound");
+            return View("NotFound");
         }
     }
 }
