@@ -19,7 +19,7 @@ def prepare_db():
 
 class BrowserTests(unittest.TestCase):
     def setUp(self):
-        #prepare_db()
+        prepare_db()
         self.driver = webdriver.Remote(
             command_executor = 'http://127.0.0.1:4444/wd/hub',
             desired_capabilities = DesiredCapabilities.CHROME
