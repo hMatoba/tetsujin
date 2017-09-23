@@ -3,6 +3,8 @@ version: '2'
 services:
   webapp:
     image: matoba/tetsujin:ci
+    links:
+      - "mymongo"
   ssldevenv:
     image: matoba/ssldevenv
     ports:
