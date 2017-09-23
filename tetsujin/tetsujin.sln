@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tetsujin", "tetsujin\tetsuj
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2BF39B58-78D5-40B6-845D-30EB1E6DAE39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "..\UnitTestProject\UnitTestProject.csproj", "{079FE0C7-74A5-4B3A-819A-550FE7612E75}"
-EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "SeleniumTest", "SeleniumTest\SeleniumTest.pyproj", "{6F396102-D104-4C48-95DF-5A819ABEAFDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestProject", "XUnitTestProject\XUnitTestProject.csproj", "{322ADC5E-64B3-42E9-A233-B97882A8980A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,12 +25,12 @@ Global
 		{2BF39B58-78D5-40B6-845D-30EB1E6DAE39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BF39B58-78D5-40B6-845D-30EB1E6DAE39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BF39B58-78D5-40B6-845D-30EB1E6DAE39}.Release|Any CPU.Build.0 = Release|Any CPU
-		{079FE0C7-74A5-4B3A-819A-550FE7612E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{079FE0C7-74A5-4B3A-819A-550FE7612E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{079FE0C7-74A5-4B3A-819A-550FE7612E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{079FE0C7-74A5-4B3A-819A-550FE7612E75}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6F396102-D104-4C48-95DF-5A819ABEAFDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F396102-D104-4C48-95DF-5A819ABEAFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{322ADC5E-64B3-42E9-A233-B97882A8980A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{322ADC5E-64B3-42E9-A233-B97882A8980A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{322ADC5E-64B3-42E9-A233-B97882A8980A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{322ADC5E-64B3-42E9-A233-B97882A8980A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using tetsujin;
 
-namespace UnitTestProject
+namespace XUnitTestProject
 {
     public class UnitTest1
     {
