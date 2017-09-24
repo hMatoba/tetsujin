@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  tetsujin:
+    image: matoba/tetsujin:latest
+    environment:
+      - HASHKEY=${D_HASHKEY}
+      - MONGO_CONNECTION=${D_MONGO_CONNECTION}
+      - STORAGE_ACCOUNT=${D_STORAGE_ACCOUNT}
+      - STORAGE_KEY=${D_STORAGE_KEY}
+      - STORAGE_URL=${D_STORAGE_URL}
+  cdcc:
+    image: matoba/cdcc
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - tetsujin:webapp
+    volumes: 
+      - cdcc:/etc/letsencrypt
+    environment:
+      - DOMAIN=${HOST_NAME}
+      - E_MAIL=${MAIL}
+      - LINK_NAME=webapp
+    fip: ${HYPER_IP}
+    size: s3
