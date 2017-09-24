@@ -17,7 +17,7 @@ services:
     links:
       - tetsujin:webapp
     volumes: 
-      - cdcc:/etc/letsencrypt
+      - tetsujin:/etc/letsencrypt
     environment:
       - DOMAIN=${HOST_NAME}
       - E_MAIL=${MAIL}
