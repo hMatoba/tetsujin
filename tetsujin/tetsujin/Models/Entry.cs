@@ -146,7 +146,8 @@ namespace tetsujin.Models
             FilterDefinition<Entry> filter;
             if (admin)
             {
-                filter = new BsonDocument { };
+                var f = Builders<Entry>.Filter;
+                filter = f.Empty;
             }
             else
             {
