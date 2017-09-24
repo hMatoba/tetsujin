@@ -4,7 +4,13 @@ services:
   webapp:
     image: matoba/tetsujin:ci
     links:
-      - "mymongo"
+      - mymongo
+    environment:
+      - HASHKEY=${HASHKEY}
+      - MONGO_CONNECTION=${MONGO_CONNECTION}
+      - STORAGE_ACCOUNT=XXX
+      - STORAGE_KEY=XXX
+      - STORAGE_URL=XXX
   ssldevenv:
     image: matoba/ssldevenv
     ports:

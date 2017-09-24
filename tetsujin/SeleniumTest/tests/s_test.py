@@ -10,7 +10,7 @@ HOST = "https://proxy"
 
 def prepare_db():
     if 'TRAVIS' in os.environ:
-        host = 'mymongo'
+        host = '127.0.0.1'
     else:
         host = '10.0.75.1'
     client = pymongo.MongoClient(host, 27017)
