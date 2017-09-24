@@ -8,7 +8,8 @@ if test "$TRAVIS_BRANCH" = "master"; then
   mv -f docker-compose.hyper.yml docker-compose.yml
   cat docker-compose.yml
   ./hyper config --accesskey ${HYPER_ACCESS} --secretkey ${HYPER_SECRET} --default-region "us-west-1"
-  ./hyper compose down --rmi -p cdcc
+  ./hyper compose down -p cdcc
+  ./hyper rmi matoba/tetsujin
   ./hyper compose up -d -p cdcc
 else
   echo "$TRAVIS_BRANCH branch"
