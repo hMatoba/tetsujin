@@ -12,24 +12,17 @@ namespace tetsujin.Controllers
     public class HomeController : Controller
     {
         [Route("")]
-        public IActionResult Index(int page = 1)
+        public IActionResult Index()
         {
+            int page = 1;
             page--;
             var entries = Entry.GetRecentEntries(page);
 
-            if (entries.Count > 0)
-            {
-                ViewBag.page = page;
-                ViewBag.pagePath = "/Page";
-                ViewBag.lastPage = System.Math.Ceiling((double)Entry.Count() / Entry.LIMIT);
-                ViewBag.entries = entries;
-                return View();
-            }
-            else
-            {
-                Response.StatusCode = 404;
-                return View("NotFound");
-            }
+            ViewBag.page = page;
+            ViewBag.pagePath = "/Page";
+            ViewBag.lastPage = System.Math.Ceiling((double)Entry.Count() / Entry.LIMIT);
+            ViewBag.entries = entries;
+            return View();
         }
 
         [Route("Page/{page:int?}")]
