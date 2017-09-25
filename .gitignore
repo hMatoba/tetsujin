@@ -303,6 +303,4 @@ $RECYCLE.BIN/
 *.lnk
 
 
-mytools/
-browsertest/tests/__pycache__/
-browsertest/browsertest.egg-info/
+__pycache__
