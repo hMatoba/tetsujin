@@ -5,6 +5,7 @@ services:
     image: matoba/tetsujin:ci
     build:
       context: ./tetsujin
+      dockerfile: _Dockerfile
     links:
       - mymongo
     environment:
