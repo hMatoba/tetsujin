@@ -3,6 +3,8 @@ version: '2'
 services:
   webapp:
     image: matoba/tetsujin:ci
+    build:
+      context: ./tetsujin
     links:
       - mymongo
     environment:
