@@ -21,6 +21,8 @@ script:
  - cd tetsujin
  - dotnet build -c Release
  - ls
+ - ls bin/
+ - ls bin/Release
  - cd ..
  - docker-compose -f docker-compose.travis.yml config
  - docker-compose -f docker-compose.travis.yml build
