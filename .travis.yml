@@ -14,26 +14,17 @@ before_install:
  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
  - chmod +x docker-compose
  - sudo mv docker-compose /usr/local/bin
- - docker-compose -f docker-compose.travis.yml config
- - docker-compose -f docker-compose.travis.yml build
- - docker-compose -f docker-compose.travis.yml up -d
  - sudo pip install selenium
  - sudo pip install pymongo
 
 script:
-<<<<<<< HEAD
  - cd tetsujin
  - dotnet publish tetsujin.csproj -c Release -o ./obj/Docker/publish
  - docker build -t matoba/tetsujin:ci .
  - cd ..
- - mv -f docker-compose.travis.yml docker-compose.yml
- - rm docker-compose.override.yml
- - docker-compose config
- - docker-compose build
- - docker push matoba/tetsujin:ci
- - docker-compose up -d
-=======
->>>>>>> parent of f3755c2... TravisCIでのビルドの変更
+ - docker-compose -f docker-compose.travis.yml config
+ - docker-compose -f docker-compose.travis.yml build
+ - docker-compose -f docker-compose.travis.yml up -d
  - cd ./SeleniumTest
  - python setup.py test
  - cd ..
