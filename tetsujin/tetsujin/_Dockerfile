@@ -6,5 +6,5 @@ RUN apt-get -y update &&\
     cd /usr/lib &&\
     ln -s libgdiplus.so gdiplus.dll
 EXPOSE 80
-COPY tetsujin/bin/Release/netcoreapp2.0 .
+COPY obj/Docker/publish .
 ENTRYPOINT ["dotnet", "tetsujin.dll"]
