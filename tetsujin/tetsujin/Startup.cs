@@ -42,6 +42,16 @@ namespace tetsujin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddSingleton<HtmlEncoder>(
+                HtmlEncoder.Create(allowedRanges: new[] {
+                    UnicodeRanges.BasicLatin,
+                    UnicodeRanges.CjkSymbolsandPunctuation,
+                    UnicodeRanges.Hiragana,
+                    UnicodeRanges.Katakana,
+                    UnicodeRanges.CjkUnifiedIdeographs
+                })
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
