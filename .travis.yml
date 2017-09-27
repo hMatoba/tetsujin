@@ -20,7 +20,10 @@ before_install:
 script:
  - cd tetsujin
  - dotnet publish tetsujin.csproj -c Release -o ./obj/Docker/publish
+ - ls obj/Docker/publish
  - cd ..
+ - docker push matoba/tetsujin:ci
+ - mv -f docker-compose.travis.yml docker-compose.yml
  - docker-compose -f docker-compose.travis.yml config
  - docker-compose -f docker-compose.travis.yml build
  - docker-compose -f docker-compose.travis.yml up -d
