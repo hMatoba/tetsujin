@@ -20,11 +20,13 @@ before_install:
 script:
  - cd tetsujin
  - dotnet publish tetsujin.csproj -c Release -o ./obj/Docker/publish
- - docker build -t matoba/tetsujin:ci
+ - docker build -t matoba/tetsujin:ci .
  - cd ..
  - mv -f docker-compose.travis.yml docker-compose.yml
+ - rm docker-compose.override.yml
  - docker-compose config
  - docker-compose build
+ - docker push matoba/tetsujin:ci
  - docker-compose up -d
  - cd ./SeleniumTest
  - python setup.py test
