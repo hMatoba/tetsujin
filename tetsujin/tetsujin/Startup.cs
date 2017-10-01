@@ -64,7 +64,7 @@ namespace tetsujin
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("ServerError");
             }
 
             app.UseStaticFiles();
