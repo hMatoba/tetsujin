@@ -1,0 +1,55 @@
+﻿@{ 
+    var errorCode = ViewBag.errorCode;
+    var title = "";
+    if (errorCode == 500)
+    {
+        title = "Server Error";
+    }
+    else
+    {
+        title = "Error Ocured.";
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <title>@errorCode @title</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.0.0.min.js"></script>
+    <style>
+        @@font-face {
+            font-family: 'YouMurderer BB';
+            src: url('/etc/youmurdererbb_reg.ttf');
+        }
+
+        body {
+            background-color: black;
+            color: crimson;
+            font-size: 70px;
+            font-family: "YouMurderer BB";
+            text-align: center;
+        }
+
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        #body {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <span id="body">@errorCode<br />@title</span>
+</body>
+</html>
