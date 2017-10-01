@@ -11,6 +11,7 @@ using System.Text.Unicode;
 using Microsoft.Net.Http.Headers;
 using tetsujin.Models;
 using MangoFramework;
+using Microsoft.AspNetCore.Http;
 
 namespace tetsujin
 {
@@ -64,7 +65,7 @@ namespace tetsujin
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/500");
             }
 
             app.UseStaticFiles();
