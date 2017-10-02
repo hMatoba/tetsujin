@@ -124,13 +124,11 @@ namespace tetsujin.Models
         /// <returns>ログインの成否</returns>
         public static bool Login(string id, string pw, IResponseCookies cookies)
         {
-            Console.WriteLine(id);
             var userCollection = DbConnection.Db.GetCollection<Master>(Master.CollectionName);
             var filter = Builders<Master>.Filter.Eq("_id", id);
             var master = userCollection.Find<Master>(filter).FirstOrDefault<Master>();
             if (master == null) // ユーザが登録されていない場合
             {
-                Console.WriteLine("no user");
                 return false;
             }
             else // ユーザが登録されていた場合
@@ -141,7 +139,6 @@ namespace tetsujin.Models
                 // パスワードの一致確認
                 if (sha256 != master.Password)
                 {
-                    Console.WriteLine($"not match: ${sha256}");
                     return false;
                 }
                 else
