@@ -1,4 +1,4 @@
-# !/bin/sh
+# !/bin/sh -x
 if test "$TRAVIS_BRANCH" = "master"; then
   docker tag matoba/tetsujin:ci matoba/tetsujin:latest
   docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
