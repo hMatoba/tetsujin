@@ -3,26 +3,20 @@ version: '2'
 services:
   webapp:
     image: matoba/tetsujin:ci
-    links:
-      - mymongo
     environment:
       - HASHKEY=${HASHKEY}
       - MONGO_CONNECTION=${MONGO_CONNECTION}
       - STORAGE_ACCOUNT=XXX
       - STORAGE_KEY=XXX
       - STORAGE_URL=XXX
-  ssldevenv:
+  proxy:
     image: matoba/ssldevenv
     ports:
       - "443:443"
-    links:
-      - webapp
   selenium:
     image: selenium/standalone-chrome:3.4
     ports:
       - "4444:4444"
-    links:
-      - ssldevenv:proxy
   mymongo:
     image: mongo
     ports:
