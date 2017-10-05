@@ -1,18 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.WindowsAzure.Storage;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System.ComponentModel.DataAnnotations;
-using System.Collections;
-
-using MongoDB.Driver;
-using MongoDB.Bson.Serialization;
 
 namespace tetsujin.Models
 {
@@ -54,7 +49,7 @@ namespace tetsujin.Models
             }
         }
 
-        public async static Task SaveImagesAsync(List<IFormFile> files)
+        public static async Task SaveImagesAsync(List<IFormFile> files)
         {
             var account = new CloudStorageAccount(
                 new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(
@@ -85,15 +80,7 @@ namespace tetsujin.Models
 
         private static string GetFilename(string fullpath)
         {
-            List<string> split;
-            if (fullpath.Contains(@"\"))
-            {
-                split = fullpath.Split('\\').ToList();
-            }
-            else
-            {
-                split = fullpath.Split('/').ToList();
-            }
+            var split = fullpath.Contains(@"\") ? fullpath.Split('\\').ToList() : fullpath.Split('/').ToList();
             return split.Last();
         }
 
@@ -108,7 +95,7 @@ namespace tetsujin.Models
             return imageInfo;
         }
 
-        private async static Task SaveImageInfo(ImageInfo imageInfo)
+        private static async Task SaveImageInfo(ImageInfo imageInfo)
         {
             var collection = DbConnection.Db.GetCollection<BsonDocument>(InfoCollectionName);
             var doc = new BsonDocument()
@@ -121,7 +108,7 @@ namespace tetsujin.Models
             await collection.InsertOneAsync(doc);
         }
 
-        public async static Task<string> GetImageInfoAsync()
+        public static async Task<string> GetImageInfoAsync()
         {
             var collection = DbConnection.Db.GetCollection<BsonDocument>(InfoCollectionName);
 
@@ -131,8 +118,8 @@ namespace tetsujin.Models
                 { "d", -1 },
             };
             var limit = 20;
-            var infoDocs = await collection.Find<BsonDocument>(filter).Sort(sortDoc).Limit(limit).ToListAsync<BsonDocument>();
-            var jsonDict = new Dictionary<string, BsonDocument>() { };
+            var infoDocs = await collection.Find(filter).Sort(sortDoc).Limit(limit).ToListAsync();
+            var jsonDict = new Dictionary<string, BsonDocument>();
             var i = 0;
             foreach (var doc in infoDocs)
             {
@@ -169,7 +156,6 @@ namespace tetsujin.Models
 
         public void Add(object obj)
         {
-            ;
         }
 
         public IEnumerator GetEnumerator()
