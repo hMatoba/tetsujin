@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  webapp:
+  tetsujin:
     image: matoba/tetsujin:latest
     environment:
       - HASHKEY=${D_HASHKEY}
@@ -20,5 +20,7 @@ services:
       - DOMAIN=${HOST_NAME}
       - E_MAIL=${MAIL}
       - LINK_NAME=webapp
+    links:
+      - tetsujin:webapp
     fip: ${HYPER_IP}
     size: s3
