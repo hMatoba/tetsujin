@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  wwebapp:
+  webapp:
     image: matoba/tetsujin:latest
     environment:
       - HASHKEY=${D_HASHKEY}
