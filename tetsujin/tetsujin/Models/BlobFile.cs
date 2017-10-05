@@ -80,15 +80,7 @@ namespace tetsujin.Models
 
         private static string GetFilename(string fullpath)
         {
-            List<string> split;
-            if (fullpath.Contains(@"\"))
-            {
-                split = fullpath.Split('\\').ToList();
-            }
-            else
-            {
-                split = fullpath.Split('/').ToList();
-            }
+            var split = fullpath.Contains(@"\") ? fullpath.Split('\\').ToList() : fullpath.Split('/').ToList();
             return split.Last();
         }
 
@@ -103,7 +95,7 @@ namespace tetsujin.Models
             return imageInfo;
         }
 
-        private async static Task SaveImageInfo(ImageInfo imageInfo)
+        private static async Task SaveImageInfo(ImageInfo imageInfo)
         {
             var collection = DbConnection.Db.GetCollection<BsonDocument>(InfoCollectionName);
             var doc = new BsonDocument()
