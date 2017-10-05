@@ -14,13 +14,13 @@ services:
     ports:
       - '80:80'
       - '443:443'
-    links:
-      - tetsujin:webapp
     volumes: 
       - tetsujin:/etc/letsencrypt
     environment:
       - DOMAIN=${HOST_NAME}
       - E_MAIL=${MAIL}
       - LINK_NAME=webapp
+    links:
+      - tetsujin:webapp
     fip: ${HYPER_IP}
     size: s3

@@ -12,6 +12,7 @@ if test "$TRAVIS_BRANCH" = "master"; then
   ./hyper pull matoba/tetsujin
   ./hyper pull matoba/cdcc
   ./hyper compose up -d -p tetsujin
+  ./hyper rmi $(./hyper images -f "dangling=true" -q)
 else
   echo "$TRAVIS_BRANCH branch"
 fi
