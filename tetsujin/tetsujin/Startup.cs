@@ -35,6 +35,12 @@ namespace tetsujin
             var storageKey = configuration.GetValue<string>("STORAGE_KEY");
             var storageUrl = configuration.GetValue<string>("STORAGE_URL");
             BlobFile.SetAccountInfo(storageAccount, storageKey, storageUrl);
+
+            var githubClientId = configuration.GetValue<string>("GITHUB_CLIENT_ID");
+            GithubOAuth.ClientId = githubClientId;
+            var githubClientSecret = configuration.GetValue<string>("GITHUB_CLIENT_SECRET");
+            GithubOAuth.ClientSecret = githubClientSecret;
+
         }
 
         public IConfiguration Configuration { get; }
