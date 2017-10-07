@@ -9,6 +9,8 @@ services:
       - STORAGE_ACCOUNT=${D_STORAGE_ACCOUNT}
       - STORAGE_KEY=${D_STORAGE_KEY}
       - STORAGE_URL=${D_STORAGE_URL}
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
   cdcc:
     image: matoba/cdcc
     ports:
