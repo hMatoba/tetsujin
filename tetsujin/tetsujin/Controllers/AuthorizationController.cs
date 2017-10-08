@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.Extensions.FileProviders.Composite;
-using tetsujin.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using tetsujin.Models;
 
 namespace tetsujin.Controllers
 {
@@ -52,7 +49,6 @@ namespace tetsujin.Controllers
                 return View("OAuthAsync");
             }
 
-            var redirectUri = "https://" + Request.Host.Value + "/Auth/OAuth";
             var code = Request.Query["code"];
 
             var token = await GetAcessTokenAsync(clientId, clientSecret, code);
@@ -66,7 +62,7 @@ namespace tetsujin.Controllers
 
         private async Task<string> GetAcessTokenAsync(string clientId, string clientSecret, string code)
         {
-            var httpClient = new System.Net.Http.HttpClient();
+            var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             // 持って帰ってきた認証コードを使ってトークンを取得する
@@ -86,7 +82,7 @@ namespace tetsujin.Controllers
 
         private async Task<string> GetUserId(string token)
         {
-            var httpClient = new System.Net.Http.HttpClient();
+            var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             // 取得したトークンを使ってGithubにユーザ情報を要求する
