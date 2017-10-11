@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace tetsujin.Controllers
 {
     [Route("Error")]
-    public class ErrorController1 : Controller
+    public class ErrorController : Controller
     {
         [Route("{errorCode:int}")]
         public IActionResult Index(int errorCode)

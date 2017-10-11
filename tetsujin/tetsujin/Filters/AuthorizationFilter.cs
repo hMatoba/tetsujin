@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using System;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using tetsujin.Models;
 
 namespace tetsujin.Filters
@@ -12,8 +13,7 @@ namespace tetsujin.Filters
             var token = context.HttpContext.Request.Cookies[Session.SESSION_COOKIE];
             if (!Session.isAuthorized(token))
             {
-                context.HttpContext.Response.StatusCode = 403;
-                throw new ArgumentException("Forbidden access.");
+                context.Result = new ForbidResult();
             }
         }
     }
