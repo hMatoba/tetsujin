@@ -76,6 +76,7 @@ namespace tetsujin
 
             app.UseMvc();
 
+            app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = ctx =>
