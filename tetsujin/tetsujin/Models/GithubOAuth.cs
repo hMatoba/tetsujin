@@ -15,16 +15,16 @@ namespace tetsujin.Models
 
         public static string ClientId
         {
-            set { GithubOAuth._clientId = value; }
+            set => _clientId = value;
             get
             {
-                if (String.IsNullOrEmpty(GithubOAuth._clientId))
+                if (String.IsNullOrEmpty(_clientId))
                 {
                     throw new ArgumentNullException(
                         "Github OAuth client ID isn't given. Set as 'GITHUB_CLIENT_ID'."
                     );
                 }
-                return GithubOAuth._clientId;
+                return _clientId;
             }
         }
 
@@ -32,16 +32,16 @@ namespace tetsujin.Models
 
         public static string ClientSecret
         {
-            set { GithubOAuth._clientSecret = value; }
+            set => _clientSecret = value;
             get
             {
-                if (String.IsNullOrEmpty(GithubOAuth._clientSecret))
+                if (String.IsNullOrEmpty(_clientSecret))
                 {
                     throw new ArgumentNullException(
                         "Github OAuth client secret isn't given. Set as 'GITHUB_CLIENT_SECRET'."
                     );
                 }
-                return GithubOAuth._clientSecret;
+                return _clientSecret;
             }
         }
 
@@ -55,7 +55,7 @@ namespace tetsujin.Models
         {
             var userCollection = DbConnection.Db.GetCollection<OAuthUser>(OAuthUser.CollectionName);
             var filter = Builders<OAuthUser>.Filter.Eq("_id", id);
-            var master = userCollection.Find<OAuthUser>(filter).FirstOrDefault<OAuthUser>();
+            var master = userCollection.Find(filter).FirstOrDefault<OAuthUser>();
             if (master == null) // ユーザが登録されていない場合
             {
                 return false;
@@ -76,7 +76,7 @@ namespace tetsujin.Models
                 {
                     Secure = true
                 };
-                cookies.Append(OAuthUser.SESSION_COOKIE, token, cookieOption);
+                cookies.Append(OAuthUser.SessionCookie, token, cookieOption);
 
                 return true;
             }
@@ -102,7 +102,7 @@ namespace tetsujin.Models
     [MongoDoc]
     public class OAuthUser
     {
-        public const string SESSION_COOKIE = "markofcain";
+        public const string SessionCookie = "markofcain";
         public const string CollectionName = "OAuthUser";
 
         [BsonId]

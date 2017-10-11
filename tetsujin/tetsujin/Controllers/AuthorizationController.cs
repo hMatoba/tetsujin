@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.Extensions.FileProviders.Composite;
-using tetsujin.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using tetsujin.Models;
 
 namespace tetsujin.Controllers
 {
@@ -52,45 +49,52 @@ namespace tetsujin.Controllers
                 return View("OAuthAsync");
             }
 
-            var redirectUri = "https://" + Request.Host.Value + "/Auth/OAuth";
             var code = Request.Query["code"];
 
-            var httpClient = new System.Net.Http.HttpClient();
+            var token = await GetAcessTokenAsync(clientId, clientSecret, code);
+
+            // 取得したトークンを使ってGithubにユーザ情報を要求する
+            var id = await GetUserId(token);
+            var loginSuccess = GithubOAuth.Login(id, Response.Cookies);
+
+            return Redirect(loginSuccess ? "/Master/" : "/Auth/OAuth");
+        }
+
+        private async Task<string> GetAcessTokenAsync(string clientId, string clientSecret, string code)
+        {
+            var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            // まず持って帰ってきた認証コードを使ってトークンを取得する
+            // 持って帰ってきた認証コードを使ってトークンを取得する
             var content = new FormUrlEncodedContent(new Dictionary<string, string>
             {
                 { "client_id", clientId },
                 { "client_secret", clientSecret },
                 { "code", code },
             });
-            var codeResponse = await httpClient.PostAsync("https://github.com/login/oauth/access_token", content);
-            var codeResponseBody = await codeResponse.Content.ReadAsStringAsync();
-            var jsonObj = JsonConvert.DeserializeObject<Dictionary<string, string>>(codeResponseBody);
+            var response = await httpClient.PostAsync("https://github.com/login/oauth/access_token", content);
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var jsonObj = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseBody);
             var token = jsonObj["access_token"];
 
-            // 取得したトークンを使ってOneDriveにユーザ情報を要求する
-            var uri = $"https://api.github.com/user?access_token={token}";
-            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("blog");
-            var tokenResponse = await httpClient.GetAsync(uri);
-            var tokenResponseBody = await tokenResponse.Content.ReadAsStringAsync();
-            Console.WriteLine(tokenResponseBody);
-            var tokenJson = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenResponseBody);
-
-            // ユーザを確認できる情報が得られたのでごにょごにょする
-            // Foo(tokenResponseBody);
-            var id = tokenJson["id"];
-            var loginSuccess = GithubOAuth.Login(id, Response.Cookies);
-
-            if (loginSuccess)
-            {
-                return Redirect("/Master/");
-            }
-            else
-            {
-                return Redirect("/Auth/OAuth");
-            }
+            return token;
         }
+
+        private async Task<string> GetUserId(string token)
+        {
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // 取得したトークンを使ってGithubにユーザ情報を要求する
+            var uri = $"https://api.github.com/user?access_token={token}";
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Zenigata");
+            var response = await httpClient.GetAsync(uri);
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseBody);
+            var id = userInfo["id"];
+
+            return id;
+        }
+
     }
 }

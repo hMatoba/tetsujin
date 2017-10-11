@@ -74,8 +74,6 @@ namespace tetsujin
                 app.UseExceptionHandler("/Error/500");
             }
 
-            app.UseStaticFiles();
-
             app.UseMvc();
 
             app.UseStaticFiles(new StaticFileOptions
