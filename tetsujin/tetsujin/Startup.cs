@@ -74,9 +74,6 @@ namespace tetsujin
                 app.UseExceptionHandler("/Error/500");
             }
 
-            app.UseMvc();
-
-            app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = ctx =>
@@ -85,6 +82,8 @@ namespace tetsujin
                         "public,max-age=2592000";
                 }
             });
+
+            app.UseMvc();
 
         }
     }
