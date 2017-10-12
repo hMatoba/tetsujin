@@ -66,12 +66,12 @@ namespace tetsujin
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
                 app.UseBrowserLink();
             }
             else
             {
-                app.UseExceptionHandler("/Error/500");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
 
             app.UseStaticFiles(new StaticFileOptions
