@@ -25,9 +25,7 @@
     <Compile Include="setup.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="tests\s_test.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="tests\selenium_test.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="tests\" />
