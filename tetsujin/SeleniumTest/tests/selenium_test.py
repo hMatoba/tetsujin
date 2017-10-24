@@ -34,31 +34,49 @@ class BrowserTests(unittest.TestCase):
 
     def test_login_success(self):
         """login success"""
-        self.driver.get(HOST + "/Auth/Login")
-
-        el1 = self.driver.find_element_by_name("_id")
-        el1.send_keys("testuser")
-
-        el2 = self.driver.find_element_by_name("password")
-        el2.send_keys("password")
-
-        el3 = self.driver.find_element_by_name("enter")
-        el3.click()
-
-        self.assertIn("Admin Page", self.driver.title)
+        is_authentificated = (LoginFormStory(self.driver)
+                    .enter_id("testuser")
+                    .enter_password("password")
+                    .post_form()
+                    .is_authentificated()
+        )
+        self.assertTrue(is_authentificated)
 
     def test_login_failure(self):
         """login failure"""
-        self.driver.get(HOST + "/Auth/Login")
+        is_authentificated = (LoginFormStory(self.driver)
+                    .enter_id("fooooooo")
+                    .enter_password("barrrrrrrrrr")
+                    .post_form()
+                    .is_authentificated()
+        )
+        self.assertFalse(is_authentificated)
 
-        el1 = self.driver.find_element_by_name("_id")
-        el1.send_keys("testuser")
-        el2 = self.driver.find_element_by_name("password")
-        el2.send_keys("fooooooo")
-        el3 = self.driver.find_element_by_name("enter")
-        el3.click()
+class LoginFormStory:
+    def __init__(self, driver):
+        driver.get(HOST + "/Auth/Login")
+        self._driver = driver
 
-        self.assertNotIn("Admin Page", self.driver.title)
+    def enter_id(self, id_):
+        el = self._driver.find_element_by_name("_id")
+        el.send_keys(id_)
+        return self
+
+    def enter_password(self, password):
+        el = self._driver.find_element_by_name("password")
+        el.send_keys(password)
+        return self
+
+    def post_form(self):
+        el = self._driver.find_element_by_name("enter")
+        el.click()
+        return self
+
+    def is_authentificated(self):
+        if "Admin Page" in self._driver.title:
+            return True
+        else:
+            return False
 
 def suite():
     """run tests"""
