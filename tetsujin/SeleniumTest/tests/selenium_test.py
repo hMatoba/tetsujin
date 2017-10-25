@@ -28,7 +28,6 @@ class BrowserTests(unittest.TestCase):
 
     def test_top(self):
         """top page"""
-        pass
         self.driver.get(HOST + "/")
         self.assertIn("Absurd", self.driver.title)
 
