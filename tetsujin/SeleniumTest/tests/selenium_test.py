@@ -33,21 +33,23 @@ class BrowserTests(unittest.TestCase):
 
     def test_login_success(self):
         """login success"""
-        is_authenticated = (LoginFormStory(self.driver)
-                    .enter_id("testuser")
-                    .enter_password("password")
-                    .post_form()
-                    .is_authenticated()
+        is_authenticated = (
+            LoginFormStory(self.driver)
+                .enter_id("testuser")
+                .enter_password("password")
+                .post_form()
+                .is_authenticated()
         )
         self.assertTrue(is_authenticated)
 
     def test_login_failure(self):
         """login failure"""
-        is_authenticated = (LoginFormStory(self.driver)
-                    .enter_id("fooooooo")
-                    .enter_password("barrrrrrrrrr")
-                    .post_form()
-                    .is_authenticated()
+        is_authenticated = (
+            LoginFormStory(self.driver)
+                .enter_id("fooooooo")
+                .enter_password("barrrrrrrrrr")
+                .post_form()
+                .is_authenticated()
         )
         self.assertFalse(is_authenticated)
 
