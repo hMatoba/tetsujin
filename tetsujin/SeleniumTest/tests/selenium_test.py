@@ -33,23 +33,23 @@ class BrowserTests(unittest.TestCase):
 
     def test_login_success(self):
         """login success"""
-        is_authentificated = (LoginFormStory(self.driver)
+        is_authenticated = (LoginFormStory(self.driver)
                     .enter_id("testuser")
                     .enter_password("password")
                     .post_form()
-                    .is_authentificated()
+                    .is_authenticated()
         )
-        self.assertTrue(is_authentificated)
+        self.assertTrue(is_authenticated)
 
     def test_login_failure(self):
         """login failure"""
-        is_authentificated = (LoginFormStory(self.driver)
+        is_authenticated = (LoginFormStory(self.driver)
                     .enter_id("fooooooo")
                     .enter_password("barrrrrrrrrr")
                     .post_form()
-                    .is_authentificated()
+                    .is_authenticated()
         )
-        self.assertFalse(is_authentificated)
+        self.assertFalse(is_authenticated)
 
 class LoginFormStory:
     def __init__(self, driver):
@@ -71,7 +71,7 @@ class LoginFormStory:
         el.click()
         return self
 
-    def is_authentificated(self):
+    def is_authenticated(self):
         if "Admin Page" in self._driver.title:
             return True
         else:
