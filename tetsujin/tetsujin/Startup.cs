@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +13,7 @@ using Microsoft.Net.Http.Headers;
 using tetsujin.Models;
 using MangoFramework;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.ResponseCompression;
 
 namespace tetsujin
 {
@@ -48,6 +50,12 @@ namespace tetsujin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<GzipCompressionProviderOptions>
+                (options => options.Level = CompressionLevel.Fastest);
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+            });
             services.AddMvc();
 
             services.AddSingleton<HtmlEncoder>(
@@ -74,6 +82,7 @@ namespace tetsujin
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
 
+            app.UseResponseCompression();
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = ctx =>
