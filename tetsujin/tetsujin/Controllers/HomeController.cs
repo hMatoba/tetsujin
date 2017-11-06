@@ -37,7 +37,7 @@ namespace tetsujin.Controllers
                 ViewBag.pagePath = "/Page";
                 ViewBag.lastPage = System.Math.Ceiling((double)Entry.Count() / Entry.LIMIT);
                 ViewBag.entries = entries;
-                return View("Index");
+                return View("~/Views/Home/Index.cshtml");
             }
             else
             {
@@ -83,7 +83,7 @@ namespace tetsujin.Controllers
                 ViewBag.pagePath = $"/Filter/Tag/{escapedTag}";
                 ViewBag.entries = entries;
                 ViewBag.lastPage = System.Math.Ceiling((double)Entry.CountFiltered(tagList, false) / Entry.LIMIT);
-                return View("Index");
+                return View("~/Views/Home/Index.cshtml");
             }
             else
             {
