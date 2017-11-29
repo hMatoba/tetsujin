@@ -85,9 +85,11 @@
         ev.preventDefault();
         var data = ev.dataTransfer.getData("text/html");
         console.log(data);
-        var imgTag = `<img class='img' src='${data}' />\n`;
+
+        var imgTag = `<img class='img' src='${data}' />`;
+        var aTag = `<a href='${data}' target='_blank' />${imgTag}</a>\n`;
         var text = target.value;
-        target.value = text.substr(0, pointerKeeper) + imgTag + text.substr(pointerKeeper);
+        target.value = text.substr(0, pointerKeeper) + aTag + text.substr(pointerKeeper);
     }
 
     document.getElementById("imageButton").addEventListener("click", function () {
