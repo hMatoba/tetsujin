@@ -20,6 +20,6 @@ services:
     ports:
       - "4444:4444"
   mymongo:
-    image: mongo:3.4.10-jessie
+    image: mongo
     ports:
       - "27017:27017"
