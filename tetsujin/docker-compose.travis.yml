@@ -9,6 +9,8 @@ services:
       - STORAGE_ACCOUNT=XXX
       - STORAGE_KEY=XXX
       - STORAGE_URL=XXX
+    links:
+      - mymongo:mymongo
   proxy:
     image: matoba/ssldevenv
     ports:
