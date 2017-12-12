@@ -5,14 +5,18 @@ services:
     image: matoba/tetsujin:ci
     environment:
       - HASHKEY=${HASHKEY}
-      - MONGO_CONNECTION=${MONGO_CONNECTION}
+      - MONGO_CONNECTION=mongodb://mymongo
       - STORAGE_ACCOUNT=XXX
       - STORAGE_KEY=XXX
       - STORAGE_URL=XXX
+    links:
+      - mymongo
   proxy:
     image: matoba/ssldevenv
     ports:
       - "443:443"
+    links:
+      - webapp
   selenium:
     image: selenium/standalone-chrome:3.4
     ports:
