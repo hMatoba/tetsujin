@@ -24,7 +24,7 @@ script:
  - cd ..
  - docker-compose -f docker-compose.travis.yml config
  - docker-compose -f docker-compose.travis.yml build
- - docker-compose -f docker-compose.travis.yml up -d
+ - docker-compose -f docker-compose.travis.yml up
  - sleep 10
  - cd ./SeleniumTest
  - python setup.py test
