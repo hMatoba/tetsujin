@@ -28,7 +28,7 @@ namespace tetsujin
             DbConnection.Connect(configuration.GetValue<string>("MONGO_CONNECTION"), dbName);
 
             // 宣言されたモデルからDBにコレクションを作る
-            //MongoInitializer.Run(DbConnection.Db, "tetsujin");
+            MongoInitializer.Run(DbConnection.Db, "tetsujin");
 
             // ユーザパスワードのハッシュキー
             Session.Hashkey = configuration.GetValue<string>("HASHKEY");
