@@ -11,6 +11,7 @@ services:
       - STORAGE_URL=${D_STORAGE_URL}
       - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
       - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+    restart: always
   cdcc:
     image: matoba/cdcc
     ports:
@@ -26,3 +27,4 @@ services:
       - tetsujin:webapp
     fip: ${HYPER_IP}
     size: s3
+    restart: always
