@@ -3,6 +3,8 @@ if test "$TRAVIS_BRANCH" = "master"; then
   docker tag matoba/tetsujin:ci matoba/tetsujin:latest
   docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
   docker push matoba/tetsujin:latest
+  docker tag matoba/tetsujin:latest matoba/tetsujin:${TRAVIS_BUILD_NUMBER}
+  docker push matoba/tetsujin:${TRAVIS_BUILD_NUMBER}
   wget https://hyper-install.s3.amazonaws.com/hyper-linux-x86_64.tar.gz
   tar xzf hyper-linux-x86_64.tar.gz
   mv -f docker-compose.hyper.yml docker-compose.yml
