@@ -44,7 +44,8 @@ namespace tetsujin.Models
             var operation = new EvalOperation(databaseName, code, messageEncodingSettings);
             var source = new CancellationTokenSource();
             var token = source.Token;
-            var writeBinding = new WritableServerBinding(DbConnection.Db.Client.Cluster);
+            var session = new CoreSessionHandle(NoCoreSession.Instance);
+            var writeBinding = new WritableServerBinding(DbConnection.Db.Client.Cluster, session);
             operation.Execute(writeBinding, CancellationToken.None);
         }
 
