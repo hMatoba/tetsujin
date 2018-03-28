@@ -37,8 +37,6 @@ namespace tetsujin.Models
 
             var messageEncodingSettings = new MessageEncoderSettings();
             var operation = new EvalOperation(databaseName, code, messageEncodingSettings);
-            var source = new CancellationTokenSource();
-            var token = source.Token;
             var session = new CoreSessionHandle(NoCoreSession.Instance);
             var writeBinding = new WritableServerBinding(DbConnection.Db.Client.Cluster, session);
             operation.Execute(writeBinding, CancellationToken.None);
