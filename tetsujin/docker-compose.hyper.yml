@@ -5,7 +5,7 @@ services:
     image: matoba/tetsujin:latest
     environment:
       - HASHKEY=${D_HASHKEY}
-      - MONGO_CONNECTION=${D_MONGO_CONNECTION}
+      - MONGO_CONNECTION=${ATLAS_MONGO}
       - STORAGE_ACCOUNT=${D_STORAGE_ACCOUNT}
       - STORAGE_KEY=${D_STORAGE_KEY}
       - STORAGE_URL=${D_STORAGE_URL}
