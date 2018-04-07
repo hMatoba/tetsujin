@@ -1,5 +1,5 @@
 # !/bin/sh -x
-if test "$TRAVIS_BRANCH" = "master"; then
+if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
   docker tag matoba/tetsujin:ci matoba/tetsujin:latest
   docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
   docker push matoba/tetsujin:latest
