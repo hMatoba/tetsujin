@@ -6,44 +6,14 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 using System.Security.Cryptography;
 using MangoFramework;
+using OAuthProvider;
+using tetsujin.Models;
 
-namespace tetsujin.Models
+namespace tetsujin
 {
-    public class GithubOAuth
+    public class GithubOAuth : GithubOAuthBase
     {
-        private static string _clientId = "";
-
-        public static string ClientId
-        {
-            set => _clientId = value;
-            get
-            {
-                if (String.IsNullOrEmpty(_clientId))
-                {
-                    throw new ArgumentNullException(
-                        "Github OAuth client ID isn't given. Set as 'GITHUB_CLIENT_ID'."
-                    );
-                }
-                return _clientId;
-            }
-        }
-
-        private static string _clientSecret = "";
-
-        public static string ClientSecret
-        {
-            set => _clientSecret = value;
-            get
-            {
-                if (String.IsNullOrEmpty(_clientSecret))
-                {
-                    throw new ArgumentNullException(
-                        "Github OAuth client secret isn't given. Set as 'GITHUB_CLIENT_SECRET'."
-                    );
-                }
-                return _clientSecret;
-            }
-        }
+        public GithubOAuth(string clientId, string clientSecret) : base(clientId, clientSecret) { }
 
         /// <summary>
         /// ログインを実行する
@@ -51,7 +21,7 @@ namespace tetsujin.Models
         /// <param name="id">ユーザID</param>
         /// <param name="cookies">クッキー</param>
         /// <returns>ログインの成否</returns>
-        public static bool Login(string id, IResponseCookies cookies)
+        override public bool Login(string id, IResponseCookies cookies)
         {
             var userCollection = DbConnection.Db.GetCollection<OAuthUser>(OAuthUser.CollectionName);
             var filter = Builders<OAuthUser>.Filter.Eq("_id", id);
@@ -80,8 +50,6 @@ namespace tetsujin.Models
 
                 return true;
             }
-
-
         }
 
         /// <summary>
@@ -99,23 +67,4 @@ namespace tetsujin.Models
 
     }
 
-    [MongoDoc]
-    public class OAuthUser
-    {
-        public const string SessionCookie = "markofcain";
-        public const string CollectionName = "OAuthUser";
-
-        [BsonId]
-        [BsonRepresentation(BsonType.String)]
-        public string Id { get; set; }
-
-        public static List<CreateIndexModel<BsonDocument>> IndexModels = new List<CreateIndexModel<BsonDocument>>()
-        {
-            new CreateIndexModel<BsonDocument>(
-                new IndexKeysDefinitionBuilder<BsonDocument>().Ascending(new StringFieldDefinition<BsonDocument>("createdAt")),
-                new CreateIndexOptions(){ ExpireAfter = TimeSpan.FromDays(10) }
-            )
-        };
-
-    }
 }

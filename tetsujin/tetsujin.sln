@@ -11,6 +11,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "SeleniumTest", "SeleniumTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTestProject", "XUnitTestProject\XUnitTestProject.csproj", "{322ADC5E-64B3-42E9-A233-B97882A8980A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuthProvider", "OAuthProvider\OAuthProvider.csproj", "{BBBD8496-30D6-4F1C-A3EC-FA60853796CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{322ADC5E-64B3-42E9-A233-B97882A8980A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{322ADC5E-64B3-42E9-A233-B97882A8980A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{322ADC5E-64B3-42E9-A233-B97882A8980A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBBD8496-30D6-4F1C-A3EC-FA60853796CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBBD8496-30D6-4F1C-A3EC-FA60853796CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBBD8496-30D6-4F1C-A3EC-FA60853796CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBBD8496-30D6-4F1C-A3EC-FA60853796CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

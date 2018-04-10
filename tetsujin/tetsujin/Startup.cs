@@ -37,12 +37,6 @@ namespace tetsujin
             var storageKey = configuration.GetValue<string>("STORAGE_KEY");
             var storageUrl = configuration.GetValue<string>("STORAGE_URL");
             BlobFile.SetAccountInfo(storageAccount, storageKey, storageUrl);
-
-            var githubClientId = configuration.GetValue<string>("GITHUB_CLIENT_ID");
-            GithubOAuth.ClientId = githubClientId;
-            var githubClientSecret = configuration.GetValue<string>("GITHUB_CLIENT_SECRET");
-            GithubOAuth.ClientSecret = githubClientSecret;
-
         }
 
         public IConfiguration Configuration { get; }
@@ -67,6 +61,11 @@ namespace tetsujin
                     UnicodeRanges.CjkUnifiedIdeographs
                 })
             );
+
+            var githubClientId = Configuration.GetValue<string>("GITHUB_CLIENT_ID");
+            var githubClientSecret = Configuration.GetValue<string>("GITHUB_CLIENT_SECRET");
+            var githubOAuth = new GithubOAuth(githubClientId, githubClientSecret);
+            services.AddSingleton<GithubOAuth>(githubOAuth);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
