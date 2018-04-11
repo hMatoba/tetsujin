@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using System.Security.Cryptography;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-
 
 
 namespace OAuthProvider
@@ -84,10 +80,10 @@ namespace OAuthProvider
 
         private async Task<string> GetAccessTokenAsync(string code)
         {
+            // 認証コードを使ってトークンを取得する
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            // 持って帰ってきた認証コードを使ってトークンを取得する
             var content = new FormUrlEncodedContent(new Dictionary<string, string>
             {
                 { "client_id", this.ClientId },
@@ -104,10 +100,10 @@ namespace OAuthProvider
 
         private async Task<string> GetUserId(string token)
         {
+            // 取得したトークンを使ってGithubにユーザ情報を要求する
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            // 取得したトークンを使ってGithubにユーザ情報を要求する
             var uri = $"https://api.github.com/user?access_token={token}";
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Zenigata");
             var response = await httpClient.GetAsync(uri);
