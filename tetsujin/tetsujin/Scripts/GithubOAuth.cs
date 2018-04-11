@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-using System.Security.Cryptography;
-using MangoFramework;
 using OAuthProvider;
+using System;
+using System.Security.Cryptography;
 using tetsujin.Models;
 
 namespace tetsujin
