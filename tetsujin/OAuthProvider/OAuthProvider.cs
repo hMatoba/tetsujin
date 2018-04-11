@@ -62,7 +62,7 @@ namespace OAuthProvider
         }
 
 
-        public async Task<string> GetIdAsync(string code, HttpResponse response)
+        public async Task<string> GetIdAsync(string code)
         {
             // 取得したトークンを使ってGithubにユーザ情報を要求する
             var token = await GetAccessTokenAsync(code);
