@@ -53,7 +53,9 @@ namespace tetsujin.Controllers
                 return View("OAuthAsync");
             }
 
-            var loginSuccess = this._githubOAuth.Login(Request.Query["code"], Response.Cookies);
+            var id = await this._githubOAuth.GetIdAsync(Request.Query["code"]);
+            var loginSuccess = this._githubOAuth.Login(id, Response.Cookies);
+
             return Redirect(loginSuccess ? "/Master/" : "/Auth/OAuth");
         }
     }
