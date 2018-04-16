@@ -93,9 +93,9 @@ namespace tetsujin.Controllers
         }
 
         [Route("Article/{id:int}")]
-        public IActionResult ShowEntry(int id)
+        public async Task<IActionResult> ShowEntryAsync(int id)
         {
-            var entry = Entry.GetEntry(id);
+            var entry = await Entry.GetEntryAsync(id);
             if (entry != null)
             {
                 ViewBag.entry = entry;
