@@ -105,6 +105,7 @@ namespace OAuthProvider
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             var uri = $"https://api.github.com/user?access_token={token}";
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Zenigata");
             var response = await httpClient.GetAsync(uri);
             var responseBody = await response.Content.ReadAsStringAsync();
             var userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseBody);
@@ -120,6 +121,7 @@ namespace OAuthProvider
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             var uri = $"https://api.github.com/user?access_token={token}";
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Zenigata");
             var response = await httpClient.GetAsync(uri);
             var responseBody = await response.Content.ReadAsStringAsync();
             var userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseBody);
