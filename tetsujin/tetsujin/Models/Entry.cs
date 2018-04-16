@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace tetsujin.Models
 {
@@ -69,7 +70,7 @@ namespace tetsujin.Models
             return Convert.ToInt32(collection.Count(filter));
         }
 
-        public static Entry GetEntry(int id, bool admin = false)
+        public static async Task<Entry> GetEntryAsync(int id, bool admin = false)
         {
             var collection = DbConnection.Db.GetCollection<Entry>(Entry.CollectionName);
 
@@ -86,7 +87,7 @@ namespace tetsujin.Models
                          f.Eq(e => e.IsShown, true);
             }
 
-            var entry = collection.Find<Entry>(filter).FirstOrDefault();
+            var entry = await collection.Find<Entry>(filter).FirstOrDefaultAsync();
             if (entry != null && entry.Tag.Count() > 0)
             {
                 entry._Tag = String.Join(",", entry.Tag);
