@@ -100,12 +100,11 @@ namespace OAuthProvider
 
         private async Task<string> GetUserId(string token)
         {
-            // 取得したトークンを使ってGithubにユーザ情報を要求する
+            // 取得したトークンを使ってGithubにユーザ情報を要求、取得した情報からIDを返す
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             var uri = $"https://api.github.com/user?access_token={token}";
-            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Zenigata");
             var response = await httpClient.GetAsync(uri);
             var responseBody = await response.Content.ReadAsStringAsync();
             var userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseBody);
@@ -113,5 +112,20 @@ namespace OAuthProvider
 
             return id;
         }
+
+        private async Task<Dictionary<string, string>> GetUserInfo(string token)
+        {
+            // 取得したトークンを使ってGithubにユーザ情報を要求する
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var uri = $"https://api.github.com/user?access_token={token}";
+            var response = await httpClient.GetAsync(uri);
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseBody);
+
+            return userInfo;
+        }
+
     }
 }
