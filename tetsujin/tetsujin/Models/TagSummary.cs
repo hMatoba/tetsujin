@@ -12,6 +12,8 @@ namespace tetsujin.Models
 {
     public class TagSummary
     {
+        public const string CollectionName = "TagSummary";
+
         public static void MapReduce()
         {
             var databaseName = new DatabaseNamespace(DbConnection.Db.DatabaseNamespace.DatabaseName);
@@ -49,7 +51,7 @@ namespace tetsujin.Models
 
         public static Dictionary<string, int> Get()
         {
-            var collection = DbConnection.Db.GetCollection<BsonDocument>("TagSummary");
+            var collection = DbConnection.Db.GetCollection<BsonDocument>(CollectionName);
             var filter = Builders<BsonDocument>.Filter.Eq("_id", "tag");
             var result = collection.Find<BsonDocument>(filter);
             var doc = result.FirstOrDefault();

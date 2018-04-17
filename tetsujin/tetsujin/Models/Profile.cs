@@ -5,7 +5,7 @@ namespace tetsujin.Models
 {
     public class Profile
     {
-        public static string CollectionName = "Profile";
+        public const string CollectionName = "Profile";
 
         public static string Get()
         {
