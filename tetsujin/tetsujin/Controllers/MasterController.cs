@@ -25,13 +25,13 @@ namespace tetsujin.Controllers
         }
 
         [Route("Edit/{id:int?}")]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> EditAsync(int? id)
         {
             Entry entry;
             if (id != null)
             {
                 int entryId = id ?? 0;
-                entry = Entry.GetEntry(entryId, true);
+                entry = await Entry.GetEntryAsync(entryId, true);
             }
             else
             {
