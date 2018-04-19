@@ -17,7 +17,7 @@ namespace OAuthProvider
             this._clientSecret = clientSecret;
         }
 
-        private string _clientId = "";
+        private readonly string _clientId = "";
 
         public string ClientId
         {
@@ -33,11 +33,10 @@ namespace OAuthProvider
             }
         }
 
-        private string _clientSecret = "";
+        private readonly string _clientSecret = "";
 
         public string ClientSecret
         {
-            set => _clientSecret = value;
             get
             {
                 if (String.IsNullOrEmpty(_clientSecret))
@@ -50,7 +49,7 @@ namespace OAuthProvider
             }
         }
 
-        public string GetRedirectUri()
+        public string GetUri()
         {
             var uri = $"https://github.com/login/oauth/authorize?client_id={this.ClientId}";
             return uri;
