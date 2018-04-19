@@ -17,7 +17,7 @@ namespace OAuthProvider
             this._clientSecret = clientSecret;
         }
 
-        private string _clientId = "";
+        private readonly string _clientId = "";
 
         public string ClientId
         {
@@ -33,11 +33,10 @@ namespace OAuthProvider
             }
         }
 
-        private string _clientSecret = "";
+        private readonly string _clientSecret = "";
 
         public string ClientSecret
         {
-            set => _clientSecret = value;
             get
             {
                 if (String.IsNullOrEmpty(_clientSecret))
@@ -50,7 +49,7 @@ namespace OAuthProvider
             }
         }
 
-        public string GetRedirectUri()
+        public string GetUri()
         {
             var uri = $"https://github.com/login/oauth/authorize?client_id={this.ClientId}";
             return uri;
@@ -100,15 +99,7 @@ namespace OAuthProvider
 
         private async Task<string> GetUserId(string token)
         {
-            // 取得したトークンを使ってGithubにユーザ情報を要求、取得した情報からIDを返す
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            var uri = $"https://api.github.com/user?access_token={token}";
-            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Zenigata");
-            var response = await httpClient.GetAsync(uri);
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseBody);
+            var userInfo = await GetUserInfo(token);
             var id = userInfo["id"];
 
             return id;

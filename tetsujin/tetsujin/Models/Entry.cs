@@ -15,7 +15,7 @@ namespace tetsujin.Models
     [MongoDoc]
     public class Entry
     {
-        public static string CollectionName = "Entry";
+        public const string CollectionName = "Entry";
 
         [BsonId]
         [BsonElement("_id")]

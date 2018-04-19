@@ -44,7 +44,7 @@ namespace tetsujin.Controllers
         {
             if (!Request.Query.ContainsKey("code"))
             {
-                ViewData["OAuthLink"] = this._githubOAuth.GetRedirectUri();
+                ViewData["OAuthLink"] = this._githubOAuth.GetUri();
                 return View("OAuthAsync");
             }
 
