@@ -7,6 +7,7 @@ using MongoDB.Driver.Core.WireProtocol.Messages.Encoders;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace tetsujin.Models
 {
@@ -49,12 +50,12 @@ namespace tetsujin.Models
             operation.Execute(writeBinding, CancellationToken.None);
         }
 
-        public static Dictionary<string, int> Get()
+        public static async Task<Dictionary<string, int>> GetAsync()
         {
             var collection = DbConnection.Db.GetCollection<BsonDocument>(CollectionName);
             var filter = Builders<BsonDocument>.Filter.Eq("_id", "tag");
             var result = collection.Find<BsonDocument>(filter);
-            var doc = result.FirstOrDefault();
+            var doc = await result.FirstOrDefaultAsync();
             if (doc == null)
             {
                 return new Dictionary<string, int> { };

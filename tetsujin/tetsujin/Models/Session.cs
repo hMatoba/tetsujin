@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace tetsujin.Models
 {
@@ -52,7 +53,7 @@ namespace tetsujin.Models
         /// </summary>
         /// <param name="token">セッショントークン</param>
         /// <returns>bool</returns>
-        public static bool isAuthorized(string token)
+        public static bool IsAuthorized(string token)
         {
             if (token == null)
             {

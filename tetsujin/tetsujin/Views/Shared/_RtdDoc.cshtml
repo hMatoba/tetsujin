@@ -1,20 +1,20 @@
 ﻿@using tetsujin.Models
 @{
     var skip = 0;
-    var recentEntry = Entry.GetRecentEntries(skip);
+    var recentEntry = await Entry.GetRecentEntriesAsync(skip);
 
     var tag = ViewBag.tag;
     var sameTagEntry = (List<Entry>)null;
     var id = (ViewBag.id == null) ? null : ViewBag.id;
     if (tag != null)
     {
-        sameTagEntry = Entry.GetSameTagEntry(tag, 0, id);
+        sameTagEntry = await Entry.GetSameTagEntryAsync(tag, 0, id);
     };
 
-    var tagInfo = TagSummary.Get();
+    var tagInfo = await TagSummary.GetAsync();
     var sortedTagInfo = tagInfo.OrderBy((x) => x.Key);
 
-    var dateInfo = DateSummary.Get();
+    var dateInfo = await DateSummary.GetAsync();
     var sortedDateInfo = dateInfo.OrderByDescending((x) => x.Key);
 
     if (ViewBag.page == 0 && ViewBag.pagePath == "/Page")
@@ -67,7 +67,7 @@
                         プロフィール
                     </div>
                     <div class="sidebar-body small">
-                        @Html.Raw(Profile.Get())
+                        @Html.Raw(await Profile.GetAsync())
                     </div>
                 </div>
 

@@ -55,19 +55,21 @@ namespace tetsujin.Models
 
         public static int LIMIT { get; } = 5;
 
-        public static int Count(bool isShown = false)
+        public static async Task<int> CountAsync(bool isShown = false)
         {
             var collection = DbConnection.Db.GetCollection<BsonDocument>(Entry.CollectionName);
             var filter = Builders<BsonDocument>.Filter.Eq("isShown", !isShown);
-            return Convert.ToInt32(collection.Count(filter));
+            var count = await collection.CountAsync(filter);
+            return (int)count;
         }
 
-        public static int CountFiltered(List<string> tag, bool isShown = true)
+        public static async Task<int> CountFilteredAsync(List<string> tag, bool isShown = true)
         {
             var collection = DbConnection.Db.GetCollection<BsonDocument>(Entry.CollectionName);
             var filter = Builders<BsonDocument>.Filter.Eq("isShown", !isShown) &
                          Builders<BsonDocument>.Filter.In("tag", tag);
-            return Convert.ToInt32(collection.Count(filter));
+            var count = await collection.CountAsync(filter);
+            return (int)count;
         }
 
         public static async Task<Entry> GetEntryAsync(int id, bool admin = false)
@@ -96,49 +98,49 @@ namespace tetsujin.Models
             return entry;
         }
 
-        public void InsertOrUpdate()
+        public async Task InsertOrUpdateAsync()
         {
             this.Tag = !String.IsNullOrEmpty(this._Tag) ? this._Tag.Split(',').ToList<string>() : new List<string> { };
 
             if (EntryID == null)
             {
-                Insert();
+                await InsertAsync();
             }
             else
             {
-                Update();
+                await UpdateAsync();
             }
 
             UpdateSubInfo();
         }
 
-        public void Insert()
+        public async Task InsertAsync()
         {
             var collection = DbConnection.Db.GetCollection<Entry>(Entry.CollectionName);
 
             var sortDoc = Builders<Entry>.Sort.Descending(e => e.EntryID);
-            var d = collection.Find<Entry>(new BsonDocument { })
-                              .Sort(sortDoc)
-                              .FirstOrDefault<Entry>();
+            var d = await collection.Find<Entry>(new BsonDocument { })
+                                    .Sort(sortDoc)
+                                    .FirstOrDefaultAsync<Entry>();
 
             var id = (d == null) ? 0 : d.EntryID + 1;
 
             this.EntryID = (int)id;
-            collection.InsertOne(this);
+            await collection.InsertOneAsync(this);
         }
 
-        public void Update()
+        public async Task UpdateAsync()
         {
             Tag.RemoveAll(item => item == null);
 
             var collection = DbConnection.Db.GetCollection<Entry>(Entry.CollectionName);
 
             var filter = Builders<Entry>.Filter.Eq("_id", this.EntryID);
-            collection.ReplaceOne(filter, this);
+            await collection.ReplaceOneAsync(filter, this);
         }
 
 
-        public static List<Entry> GetRecentEntries(int skip_n, bool admin = false, bool isSitemap = false)
+        public static async Task<List<Entry>> GetRecentEntriesAsync(int skip_n, bool admin = false, bool isSitemap = false)
         {
             var collection = DbConnection.Db.GetCollection<Entry>(Entry.CollectionName);
 
@@ -170,17 +172,17 @@ namespace tetsujin.Models
             {
                 limit = 10000;
             }
-            var entries = collection.Find<Entry>(filter).Sort(sortDoc).Limit(limit).Skip(skip).ToList();
+            var entries = await collection.Find<Entry>(filter).Sort(sortDoc).Limit(limit).Skip(skip).ToListAsync();
 
             return entries;
         }
 
-        public static void DeleteMany(List<int> ids)
+        public static async Task DeleteManyAsync(List<int> ids)
         {
             var collection = DbConnection.Db.GetCollection<BsonDocument>(Entry.CollectionName);
 
             var filter = Builders<BsonDocument>.Filter.In("_id", ids);
-            collection.DeleteMany(filter);
+            await collection.DeleteManyAsync(filter);
 
             UpdateSubInfo();
         }
@@ -191,7 +193,7 @@ namespace tetsujin.Models
             DateSummary.MapReduce();
         }
 
-        public static List<Entry> GetSameTagEntry(List<string> filterTag, int skip_n, int? excludeId = null)
+        public static async Task<List<Entry>> GetSameTagEntryAsync(List<string> filterTag, int skip_n, int? excludeId = null)
         {
             var collection = DbConnection.Db.GetCollection<Entry>(Entry.CollectionName);
 
@@ -207,12 +209,16 @@ namespace tetsujin.Models
             {
                 { "publishDate", -1 },
             };
-            var entries = collection.Find<Entry>(filter).Sort(sortDoc).Limit(LIMIT).Skip(skip).ToList();
+            var entries = await collection.Find<Entry>(filter)
+                                          .Sort(sortDoc)
+                                          .Limit(LIMIT)
+                                          .Skip(skip)
+                                          .ToListAsync();
 
             return entries;
         }
 
-        public static List<Entry> FilterByMonth(int year, int month)
+        public static async Task<List<Entry>> FilterByMonthAsync(int year, int month)
         {
             var collection = DbConnection.Db.GetCollection<Entry>(Entry.CollectionName);
 
@@ -228,14 +234,14 @@ namespace tetsujin.Models
             {
                 { "publishDate", -1 },
             };
-            var entries = collection.Find<Entry>(filter)
-                                    .Sort(sortDoc)
-                                    .ToList();
+            var entries = await collection.Find<Entry>(filter)
+                                          .Sort(sortDoc)
+                                          .ToListAsync();
 
             return entries;
         }
 
-        public static int CountDateFiltered(int year, int month, bool isShown = true)
+        public static async Task<int> CountDateFilteredAsync(int year, int month, bool isShown = true)
         {
             var dateMin = new DateTime(year, month, 1);
             var dayInMonth = DateTime.DaysInMonth(year, month);
@@ -245,7 +251,8 @@ namespace tetsujin.Models
             var filter = Builders<BsonDocument>.Filter.Eq("isShown", isShown) &
                          Builders<BsonDocument>.Filter.Gte("publishDate", dateMin) &
                          Builders<BsonDocument>.Filter.Lt("publishDate", dateMax);
-            return Convert.ToInt32(collection.Count(filter));
+            var count = await collection.CountAsync(filter);
+            return (int)count;
         }
     }
 

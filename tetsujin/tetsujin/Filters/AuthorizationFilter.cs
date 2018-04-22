@@ -12,7 +12,7 @@ namespace tetsujin.Filters
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var token = context.HttpContext.Request.Cookies[Session.SESSION_COOKIE];
-            if (!Session.isAuthorized(token))
+            if (!Session.IsAuthorized(token))
             {
                 context.Result = new StatusCodeResult(StatusCodes.Status403Forbidden);
             }

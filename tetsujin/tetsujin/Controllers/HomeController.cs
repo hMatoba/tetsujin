@@ -12,30 +12,32 @@ namespace tetsujin.Controllers
     public class HomeController : Controller
     {
         [Route("")]
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
             int page = 1;
             page--;
-            var entries = Entry.GetRecentEntries(page);
+            var entries = await Entry.GetRecentEntriesAsync(page);
 
             ViewBag.page = page;
             ViewBag.pagePath = "/Page";
-            ViewBag.lastPage = System.Math.Ceiling((double)Entry.Count() / Entry.LIMIT);
+            var count = await Entry.CountAsync();
+            ViewBag.lastPage = System.Math.Ceiling((double)count / Entry.LIMIT);
             ViewBag.entries = entries;
-            return View();
+            return View("Index");
         }
 
         [Route("Page/{page:int?}")]
-        public IActionResult PageIndex(int page = 1)
+        public async Task<IActionResult> PageIndexAsync(int page = 1)
         {
             page--;
-            var entries = Entry.GetRecentEntries(page);
+            var entries = await Entry.GetRecentEntriesAsync(page);
 
             if (entries.Count > 0)
             {
                 ViewBag.page = page;
                 ViewBag.pagePath = "/Page";
-                ViewBag.lastPage = System.Math.Ceiling((double)Entry.Count() / Entry.LIMIT);
+                var count = await Entry.CountAsync();
+                ViewBag.lastPage = System.Math.Ceiling((double)count / Entry.LIMIT);
                 ViewBag.entries = entries;
                 return View("~/Views/Home/Index.cshtml");
             }
@@ -47,13 +49,13 @@ namespace tetsujin.Controllers
         }
 
         [Route("Filter/Date/{date}/")]
-        public IActionResult IndexDateFiltered(string date)
+        public async Task<IActionResult> IndexDateFilteredAsync(string date)
         {
             var d = date.Split('-').Select(Int32.Parse).ToList();
             var year = d[0];
             var month = d[1];
 
-            var entries = Entry.FilterByMonth(year, month);
+            var entries = await Entry.FilterByMonthAsync(year, month);
             if (entries.Count > 0)
             {
                 ViewBag.entries = entries;
@@ -68,13 +70,13 @@ namespace tetsujin.Controllers
         }
 
         [Route("Filter/Tag/{tag}/{page:int?}")]
-        public IActionResult IndexTagFiltered(string tag, int page = 1)
+        public async Task<IActionResult> IndexTagFilteredAsync(string tag, int page = 1)
         {
             var tagList = new List<string> { tag };
 
             page--;
-            var entries = Entry.GetSameTagEntry(tagList, page);
-
+            var entries = await Entry.GetSameTagEntryAsync(tagList, page);
+ 
             if (entries.Count > 0)
             {
                 ViewBag.page = page;
@@ -82,7 +84,8 @@ namespace tetsujin.Controllers
                 var escapedTag = Uri.EscapeDataString(tag);
                 ViewBag.pagePath = $"/Filter/Tag/{escapedTag}";
                 ViewBag.entries = entries;
-                ViewBag.lastPage = System.Math.Ceiling((double)Entry.CountFiltered(tagList, false) / Entry.LIMIT);
+                var count = await Entry.CountFilteredAsync(tagList, false);
+                ViewBag.lastPage = System.Math.Ceiling((double)count / Entry.LIMIT);
                 return View("~/Views/Home/Index.cshtml");
             }
             else
@@ -113,7 +116,6 @@ namespace tetsujin.Controllers
         public IActionResult Sitemap()
         {
             HttpContext.Response.ContentType = "text/xml";
-            //ViewBag.baseUrl = Startup.Configuration.GetSection("ConnectionStrings")["Url"];
             ViewBag.baseUrl = "https://" + HttpContext.Request.Host.Value.ToString() + "/";
             return View();
         }
