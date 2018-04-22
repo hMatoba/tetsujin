@@ -14,14 +14,15 @@ namespace tetsujin.Controllers
     public class MasterController : Controller
     {
         [Route("{page:int?}")]
-        public IActionResult Index(int? page = 1)
+        public async Task<IActionResult> IndexAsync(int? page = 1)
         {
             page--;
             ViewBag.page = page;
-            ViewBag.entries = Entry.GetRecentEntries((int)page, true);
-            ViewBag.lastPage = System.Math.Ceiling((double)Entry.Count() / Entry.LIMIT);
+            ViewBag.entries = await Entry.GetRecentEntriesAsync((int)page, true);
+            var count = await Entry.CountAsync();
+            ViewBag.lastPage = System.Math.Ceiling((double)count / Entry.LIMIT);
 
-            return View();
+            return View("Index");
         }
 
         [Route("Edit/{id:int?}")]
@@ -50,36 +51,36 @@ namespace tetsujin.Controllers
         [Route("Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditPost(Entry entry)
+        public async Task<IActionResult> EditPostAsync(Entry entry)
         {
-            entry.InsertOrUpdate();
-            return View();
+            await entry.InsertOrUpdateAsync();
+            return View("EditPost");
         }
 
         [Route("Remove")]
         [HttpPost]
-        public IActionResult Remove()
+        public async Task<ActionResult> RemoveAsync()
         {
             var ids = Request.Form["entryId[]"].Select((a) => Int32.Parse(a)).ToList();
-            Entry.DeleteMany(ids);
+            await Entry.DeleteManyAsync(ids);
             ViewBag.count = Request.Form["entryId[]"].Count;
 
-            return View();
+            return View("Remove");
         }
 
         [Route("Profile/Edit")]
-        public IActionResult EditProfile()
+        public async Task<IActionResult> EditProfileAsync()
         {
-            ViewBag.profile = Profile.Get();
-            return View();
+            ViewBag.profile = await Profile.GetAsync();
+            return View("EditProfile");
         }
 
         [HttpPost]
         [Route("Profile/Edit")]
         [ValidateAntiForgeryToken]
-        public IActionResult PostProfile()
+        public async Task<IActionResult> PostProfileAsync()
         {
-            Profile.Save(Request.Form["body"]);
+            await Profile.SaveAsync(Request.Form["body"]);
             return Redirect("/Master");
         }
 

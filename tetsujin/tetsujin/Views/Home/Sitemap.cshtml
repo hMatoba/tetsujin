@@ -1,11 +1,12 @@
 ﻿@using tetsujin.Models;
 @{
-    var lastPage = System.Math.Ceiling((double)Entry.Count() / Entry.LIMIT);
+    var count = await Entry.CountAsync();
+    var lastPage = System.Math.Ceiling((double)count / Entry.LIMIT);
 
     var skip = 0;
     var isAdmin = false;
     var isSitemap = true;
-    var entries = Entry.GetRecentEntries(skip, isAdmin, isSitemap);
+    var entries = await Entry.GetRecentEntriesAsync(skip, isAdmin, isSitemap);
     var latest = entries[0];
     var latestDate = latest.PublishDate.ToString("yyyy-MM-dd");
     var host = Context.Request.Host.ToString();
