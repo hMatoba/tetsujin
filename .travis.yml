@@ -6,8 +6,10 @@ services:
   - docker
 
 env:
-  - TRAVIS_PYTHON_VERSION=3.6
-  - DOCKER_COMPOSE_VERSION=1.16.0
+  global:
+    - TRAVIS_PYTHON_VERSION=3.6
+  matrix:
+    - DOCKER_COMPOSE_VERSION=1.16.0
 
 before_install:
  - cd tetsujin
