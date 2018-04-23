@@ -8,13 +8,21 @@ services:
 env:
   - DOCKER_COMPOSE_VERSION=1.16.0
 
+addons:
+  apt:
+    sources:
+        - deadsnakes
+    packages:
+        - python3.6
+        - python3-pip
+
 before_install:
  - cd tetsujin
  - sudo rm /usr/local/bin/docker-compose
  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
  - chmod +x docker-compose
  - sudo mv docker-compose /usr/local/bin
- - sudo -H pip install -r SeleniumTest/requirements.txt
+ - sudo -H pip3 install -r SeleniumTest/requirements.txt
 
 script:
  - cd tetsujin
@@ -27,7 +35,7 @@ script:
  - sleep 10
  - docker ps -a
  - cd ./SeleniumTest
- - python setup.py test
+ - python3 setup.py test
  - cd ..
 
 after_success:
