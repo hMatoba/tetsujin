@@ -64,7 +64,9 @@
 
 <button id="imageButton">Show Images</button>
 <button id="linkButton">Add link tag</button>
+<button id="codeButton">Code</button>
 <button id="replaceButton">Code Title</button>
+
 
 <script>
     var pointerKeeper = 0;
@@ -122,6 +124,14 @@
         var text = target.value;
         target.value = text.substr(0, pointerKeeper) + imgTag + text.substr(pointerKeeper);
     });
+
+    document.getElementById("codeButton").addEventListener("click", function () {
+        var codeTag = "<pre><code></code></pre>";
+        var target = document.getElementById("Body");
+        var text = target.value;
+        target.value = text.substr(0, pointerKeeper) + codeTag + text.substr(pointerKeeper);
+    });
+
 
     function getInputSelection(el) {
         var start = 0, end = 0, normalizedValue, range,
