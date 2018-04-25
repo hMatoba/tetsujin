@@ -4,10 +4,10 @@ import sys
 sys.path.append('./tests')
 
 setup(
-    name='browsertest',
+    name='ui_test',
     version='1.0',
-    description='test a project on browser',
-    test_suite = 'selenium_test.suite',
+    description='UI tests',
+    test_suite = 'ui_test.suite',
     install_requires=[
         'selenium',
         'pymongo'
