@@ -26,7 +26,7 @@ def prepare_db():
 
     _id = "testuser"
     pw_hash = "0d6a78622e8c92da07a2aa0e34ad7656a644481b849b0b75dc31358a59708251"
-    db.Master.update(
+    db.Master.update_one(
         {'_id':_id},
         {'$set':{'pw':pw_hash}},
         True
