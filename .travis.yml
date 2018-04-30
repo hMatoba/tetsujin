@@ -38,7 +38,7 @@ script:
  - cd ./SeleniumTest
  - python3 setup.py test
  - cd ..
- - ./PythonIntegtationTest
+ - cd ./PythonIntegtationTest
  - python3 setup.py test
  - cd ..
 
