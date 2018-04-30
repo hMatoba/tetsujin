@@ -26,11 +26,6 @@ class BrowserTests(unittest.TestCase):
         )
         self.driver.implicitly_wait(10)
 
-    def test_top(self):
-        """top page"""
-        self.driver.get(HOST + "/")
-        self.assertIn("Absurd", self.driver.title)
-
     def test_login_success(self):
         """login success"""
         is_authenticated = (

@@ -23,6 +23,7 @@ before_install:
  - chmod +x docker-compose
  - sudo mv docker-compose /usr/local/bin
  - sudo -H pip3 install -r SeleniumTest/requirements.txt
+ - sudo -H pip3 install -r PythonIntegtationTest/requirements.txt
 
 script:
  - cd tetsujin
@@ -35,6 +36,9 @@ script:
  - sleep 10
  - docker ps -a
  - cd ./SeleniumTest
+ - python3 setup.py test
+ - cd ..
+ - cd ./PythonIntegtationTest
  - python3 setup.py test
  - cd ..
 

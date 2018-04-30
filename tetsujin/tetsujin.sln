@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTestProject", "XUnitTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuthProvider", "OAuthProvider\OAuthProvider.csproj", "{BBBD8496-30D6-4F1C-A3EC-FA60853796CA}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PythonIntegtationTest", "PythonIntegtationTest\PythonIntegtationTest.pyproj", "{FBAAAA8B-85B1-4328-8216-AF247FD17118}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,8 @@ Global
 		{BBBD8496-30D6-4F1C-A3EC-FA60853796CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBBD8496-30D6-4F1C-A3EC-FA60853796CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBBD8496-30D6-4F1C-A3EC-FA60853796CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBAAAA8B-85B1-4328-8216-AF247FD17118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBAAAA8B-85B1-4328-8216-AF247FD17118}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
