@@ -5,9 +5,9 @@ import requests
 import pymongo
 
 # requestsが不全な証明書に出すメッセージの抑制
-import urllib3
-from urllib3.exceptions import InsecureRequestWarning
-urllib3.disable_warnings(InsecureRequestWarning)
+#import urllib3
+#from urllib3.exceptions import InsecureRequestWarning
+#urllib3.disable_warnings(InsecureRequestWarning)
  
 # このテストは開発環境、CI環境ともにコンテナ内ではなくホストから行う
 # そのためにアプリを動かすコンテナのポートがホストにバインドされている
