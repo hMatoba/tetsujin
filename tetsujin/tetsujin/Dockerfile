@@ -1,4 +1,4 @@
-FROM microsoft/aspnetcore:2.0
+FROM microsoft/aspnetcore:2.0.8
 ARG source
 WORKDIR /app
 RUN apt-get -y update &&\
