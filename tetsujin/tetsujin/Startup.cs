@@ -14,6 +14,7 @@ using tetsujin.Models;
 using MangoFramework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Mvc;
 
 namespace tetsujin
 {
@@ -50,7 +51,7 @@ namespace tetsujin
             {
                 options.Providers.Add<GzipCompressionProvider>();
             });
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSingleton<HtmlEncoder>(
                 HtmlEncoder.Create(allowedRanges: new[] {
