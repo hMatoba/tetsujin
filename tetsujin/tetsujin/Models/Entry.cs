@@ -24,6 +24,7 @@ namespace tetsujin.Models
         public int? EntryID { get; set; } = null;
 
         [DisplayName("タイトル")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         [BsonRepresentation(BsonType.String)]
         [BsonElement("title")]
         public string Title { get; set; }
@@ -43,6 +44,7 @@ namespace tetsujin.Models
         public string _Tag { get; set; }
 
         [DisplayName("本文")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         [BsonRepresentation(BsonType.String)]
         [BsonElement("body")]
         [DataType(DataType.MultilineText)]
