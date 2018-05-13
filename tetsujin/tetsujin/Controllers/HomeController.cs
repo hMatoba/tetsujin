@@ -14,9 +14,9 @@ namespace tetsujin.Controllers
         [Route("")]
         public async Task<IActionResult> IndexAsync()
         {
-            int page = 1;
-            page--;
-            var entries = await Entry.GetRecentEntriesAsync(page);
+            var page = 1;
+            var pageSkip = page - 1 ;
+            var entries = await Entry.GetRecentEntriesAsync(pageSkip);
 
             ViewBag.page = page;
             ViewBag.pagePath = "/Page";
@@ -29,8 +29,8 @@ namespace tetsujin.Controllers
         [Route("Page/{page:int?}")]
         public async Task<IActionResult> PageIndexAsync(int page = 1)
         {
-            page--;
-            var entries = await Entry.GetRecentEntriesAsync(page);
+            var pageSkip = page - 1;
+            var entries = await Entry.GetRecentEntriesAsync(pageSkip);
 
             if (entries.Count > 0)
             {
@@ -74,8 +74,8 @@ namespace tetsujin.Controllers
         {
             var tagList = new List<string> { tag };
 
-            page--;
-            var entries = await Entry.GetSameTagEntryAsync(tagList, page);
+            var pageSkip = page - 1;
+            var entries = await Entry.GetSameTagEntryAsync(tagList, pageSkip);
  
             if (entries.Count > 0)
             {
