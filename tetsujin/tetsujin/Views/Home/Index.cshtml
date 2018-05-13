@@ -28,32 +28,27 @@
     <hr />
 }
 
-@ViewBag._page
-
 <div id="pageLink">
-    @for (var i = 1; i < ViewBag.lastPage + 1; i++)
-    {
-        @if (i != ViewBag.page + 1)
+    ページ：
+    <select id="pageSelect">
+        @for (var i = 1; i <= ViewBag.lastPage; i++)
         {
-            @if (i != 1)
-            {
-                <span class="page"><a href="@ViewBag.pagePath/@i">@i</a></span>
-            }
-            else
-            {
-                @if (ViewBag.pagePath == "/Page")
-                {
-                    <span class="page"><a href="/">1</a></span>
-                }
-                else
-                {
-                    <span class="page"><a href="@ViewBag.pagePath">1</a></span>
-                }
-            }
+            <option value="@i" @((i == ViewBag.page) ? "selected" : "")>@i</option>
         }
-        else
-        {
-            <span class="page">@i</span>
-        }
-    }
+    </select>
+
+    / @ViewBag.lastPage
+    <script>
+        document.getElementById("pageSelect").addEventListener("change", function () {
+            var page = this.options[this.selectedIndex].value;
+            var path = location.pathname;
+            if (path == "/" || path.startsWith("/Page/")) {
+                var path = "/Page/" + page;
+            } else {
+                var dirs = location.pathname.split("/").slice(-1).pop();
+                var path = "/" + dirs.join("/") + page;
+            }
+            location.href = path;
+        });
+    </script>
 </div>
