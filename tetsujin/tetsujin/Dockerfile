@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1.0-rc1-aspnetcore-runtime
+FROM microsoft/dotnet:2.1-aspnetcore-runtime
 ARG source
 WORKDIR /app
 RUN apt-get -y update &&\
