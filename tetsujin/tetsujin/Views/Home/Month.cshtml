@@ -21,31 +21,3 @@
 
     <hr />
 }
-
-<div id="pageLink">
-    @for (var i = 1; i < ViewBag.lastPage + 1; i++)
-    {
-        @if (i != ViewBag.page + 1)
-        {
-            @if (i != 1)
-            {
-                <span class="page"><a href="@ViewBag.pagePath/@i">@i</a></span>
-            }
-            else
-            {
-                @if (ViewBag.pagePath == "/Page")
-                {
-                    <span class="page"><a href="/">1</a></span>
-                }
-                else
-                {
-                    <span class="page"><a href="@ViewBag.pagePath">1</a></span>
-                }
-            }
-        }
-        else
-        {
-            <span class="page">@i</span>
-        }
-    }
-</div>
