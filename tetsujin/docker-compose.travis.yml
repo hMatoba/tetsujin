@@ -2,7 +2,7 @@ version: '2'
 
 services:
   webapp:
-    image: matoba/tetsujin:ci
+    image: matoba/tetsujin:dev
     environment:
       - HASHKEY=${HASHKEY}
       - MONGO_CONNECTION=mongodb://mymongo

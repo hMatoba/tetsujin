@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   webapp:
-    image: matoba/tetsujin:ci
+    image: matoba/tetsujin:dev
     build:
       context: ./tetsujin
       dockerfile: Dockerfile
