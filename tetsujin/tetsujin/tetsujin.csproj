@@ -10,9 +10,9 @@
     <PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
     <PackageReference Include="MangoFramework" Version="1.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.1" />
-    <PackageReference Include="MongoDB.Bson" Version="2.6.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.6.0" />
-    <PackageReference Include="MongoDB.Driver.Core" Version="2.6.0" />
+    <PackageReference Include="MongoDB.Bson" Version="2.6.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.6.1" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.6.1" />
   </ItemGroup>
 
   <ItemGroup>
