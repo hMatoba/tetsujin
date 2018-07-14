@@ -61,7 +61,7 @@ namespace tetsujin.Models
         {
             var collection = DbConnection.Db.GetCollection<BsonDocument>(Entry.CollectionName);
             var filter = Builders<BsonDocument>.Filter.Eq("isShown", !isShown);
-            var count = await collection.CountAsync(filter);
+            var count = await collection.CountDocumentsAsync(filter);
             return (int)count;
         }
 
@@ -70,7 +70,7 @@ namespace tetsujin.Models
             var collection = DbConnection.Db.GetCollection<BsonDocument>(Entry.CollectionName);
             var filter = Builders<BsonDocument>.Filter.Eq("isShown", !isShown) &
                          Builders<BsonDocument>.Filter.In("tag", tag);
-            var count = await collection.CountAsync(filter);
+            var count = await collection.CountDocumentsAsync(filter);
             return (int)count;
         }
 
@@ -253,7 +253,7 @@ namespace tetsujin.Models
             var filter = Builders<BsonDocument>.Filter.Eq("isShown", isShown) &
                          Builders<BsonDocument>.Filter.Gte("publishDate", dateMin) &
                          Builders<BsonDocument>.Filter.Lt("publishDate", dateMax);
-            var count = await collection.CountAsync(filter);
+            var count = await collection.CountDocumentsAsync(filter);
             return (int)count;
         }
     }
