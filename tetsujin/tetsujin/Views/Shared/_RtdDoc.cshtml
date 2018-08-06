@@ -1,4 +1,5 @@
-﻿@using tetsujin.Models
+﻿@using tetsujin
+@using tetsujin.Models
 @{
     var skip = 0;
     var recentEntry = await Entry.GetRecentEntriesAsync(skip);
@@ -152,9 +153,8 @@
                         <hr>
 
                         <div role="contentinfo">
-                            <p>
-                                Copyright 2017, hMatoba.
-                            </p>
+                            <p>Copyright 2017, hMatoba.</p>
+                            <p>Docker Image built: @Startup.buildTime</p>
                         </div>
                         Using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>.<br />
 
