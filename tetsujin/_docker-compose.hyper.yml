@@ -11,6 +11,7 @@ services:
       - STORAGE_URL=${D_STORAGE_URL}
       - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
       - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+      - BUILD_TIME=${BUILD_TIME}
     restart: always
   cdcc:
     image: matoba/cdcc
@@ -23,7 +24,6 @@ services:
       - DOMAIN=${HOST_NAME}
       - E_MAIL=${MAIL}
       - LINK_NAME=webapp
-      - BUILD_TIME=${BUILD_TIME}
     links:
       - tetsujin:webapp
     fip: ${HYPER_IP}
