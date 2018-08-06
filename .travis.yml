@@ -44,8 +44,9 @@ script:
  - cd ..
 
 after_success:
- - BUILD_TIME=$(date '+%Y/%m/%d %R UTC')
+ - export BUILD_TIME=$(date '+%Y/%m/%d %R UTC')
  - envsubst '$$BUILD_TIME' < _docker-compose.hyper.yml > docker-compose.hyper.yml
+ - cat docker-compose.hyper.yml
  - sh deploy.sh
 
 matrix:
