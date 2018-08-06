@@ -20,6 +20,8 @@ namespace tetsujin
 {
     public class Startup
     {
+        public static string buildTime;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -38,6 +40,8 @@ namespace tetsujin
             var storageKey = configuration.GetValue<string>("STORAGE_KEY");
             var storageUrl = configuration.GetValue<string>("STORAGE_URL");
             BlobFile.SetAccountInfo(storageAccount, storageKey, storageUrl);
+
+            buildTime = configuration.GetValue<string>("BUILD_TIME");
         }
 
         public IConfiguration Configuration { get; }

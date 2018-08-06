@@ -23,6 +23,7 @@ services:
       - DOMAIN=${HOST_NAME}
       - E_MAIL=${MAIL}
       - LINK_NAME=webapp
+      - BUILD_TIME=${BUILD_TIME}
     links:
       - tetsujin:webapp
     fip: ${HYPER_IP}
