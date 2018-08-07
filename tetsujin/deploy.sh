@@ -15,6 +15,7 @@ if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
   ./hyper pull matoba/cdcc
   ./hyper compose up -d -p tetsujin
   ./hyper rmi $(./hyper images -f "dangling=true" -q)
+  ./hyper ps
 else
   echo "$TRAVIS_BRANCH branch"
 fi
