@@ -11,7 +11,6 @@ services:
       - STORAGE_URL=${D_STORAGE_URL}
       - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
       - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
-      - BUILD_TIME=${BUILD_TIME}
     restart: always
   cdcc:
     image: matoba/cdcc

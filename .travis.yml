@@ -28,6 +28,9 @@ before_install:
 
 script:
  - cd tetsujin
+ - export BUILD_TIME=$(date '+%Y/%m/%d %R UTC')
+ - envsubst '$$BUILD_TIME' < Dockerfile > Dockerfile
+ - cat Dockerfile
  - dotnet publish tetsujin.csproj -c Release -o ./obj/Docker/publish
  - docker build -t matoba/tetsujin:dev .
  - cd ..
@@ -44,9 +47,6 @@ script:
  - cd ..
 
 after_success:
- - export BUILD_TIME=$(date '+%Y/%m/%d %R UTC')
- - envsubst '$$BUILD_TIME' < _docker-compose.hyper.yml > docker-compose.hyper.yml
- - cat docker-compose.hyper.yml
  - sh deploy.sh
 
 matrix:

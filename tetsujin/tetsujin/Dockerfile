@@ -1,5 +1,6 @@
 FROM microsoft/dotnet:2.1-aspnetcore-runtime
 ARG source
+ENV BUILD_TIME="${BUILD_TIME}"
 WORKDIR /app
 RUN apt-get -y update &&\
     apt-get -y install libgdiplus &&\
