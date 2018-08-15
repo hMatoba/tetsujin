@@ -1,4 +1,4 @@
-version: '2'
+version: '3.7'
 
 services:
   webapp:
@@ -13,10 +13,11 @@ services:
       - mymongo
   proxy:
     image: matoba/ssldevenv:cc
+    restart: always
     ports:
       - "443:443"
-    links:
-      - webapp
+    environment:
+      - LINK_TO=webapp
   selenium:
     image: selenium/standalone-chrome:3.12
     ports:
