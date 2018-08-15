@@ -39,7 +39,6 @@ script:
  - docker-compose -f docker-compose.travis.yml up -d
  - sleep 10
  - docker ps -a
- - docker logs tetsujin_proxy_1
  - cd ./SeleniumTest
  - python3 setup.py test
  - cd ..
