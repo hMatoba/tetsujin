@@ -11,6 +11,6 @@ services:
     environment:
       - LINK_TO=webapp
   selenium:
-    image: selenium/standalone-chrome:3.12
+    image: selenium/standalone-chrome:3
     ports:
       - "4444:4444"
