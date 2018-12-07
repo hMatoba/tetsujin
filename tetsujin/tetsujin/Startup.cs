@@ -79,7 +79,6 @@ namespace tetsujin
             if (env.IsDevelopment())
             {
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
-                app.UseBrowserLink();
             }
             else
             {
