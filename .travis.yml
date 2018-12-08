@@ -1,7 +1,9 @@
 language: python
 python: 
   - "3.6" 
+
 dist: xenial
+
 addons:
   apt:
     sources:
@@ -19,12 +21,10 @@ before_install:
  - dotnet --version
  - python --version
  - pip --version
+ - docker -v
+ - docker-compose -v
  # app
  - cd tetsujin
- - sudo rm /usr/local/bin/docker-compose
- - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
- - chmod +x docker-compose
- - sudo mv docker-compose /usr/local/bin
  - sudo -H pip install -r SeleniumTest/requirements.txt
  - sudo -H pip install -r PythonIntegtationTest/requirements.txt
 
