@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime
+FROM microsoft/dotnet:2.2-aspnetcore-runtime
 ARG source
 ENV BUILD_TIME="${BUILD_TIME}"
 WORKDIR /app
