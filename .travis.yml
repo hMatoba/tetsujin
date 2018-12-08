@@ -1,23 +1,20 @@
-language: csharp
-mono: none
-dotnet: 2.2
-dist: trusty
-services:
-  - docker
-
-env:
-  - DOCKER_COMPOSE_VERSION=1.22.0
-
+dist: xenial
 addons:
   apt:
     sources:
-        - deadsnakes
+      - docker-xenial
     packages:
-        - python3.6
-        - python3-pip
-        - gettext-base
+      - gettext-base
 
 before_install:
+ # build environment
+ - wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
+ - sudo dpkg -i packages-microsoft-prod.deb
+ - sudo apt-get install apt-transport-https
+ - sudo apt-get update
+ - sudo apt-get install dotnet-sdk-2.2
+ - dotnet --version
+ # app
  - cd tetsujin
  - sudo rm /usr/local/bin/docker-compose
  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
