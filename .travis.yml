@@ -1,3 +1,6 @@
+language: python
+python: 
+  - "3.6" 
 dist: xenial
 addons:
   apt:
@@ -14,14 +17,16 @@ before_install:
  - sudo apt-get update
  - sudo apt-get install dotnet-sdk-2.2
  - dotnet --version
+ - python --version
+ - pip --version
  # app
  - cd tetsujin
  - sudo rm /usr/local/bin/docker-compose
  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
  - chmod +x docker-compose
  - sudo mv docker-compose /usr/local/bin
- - sudo -H pip3 install -r SeleniumTest/requirements.txt
- - sudo -H pip3 install -r PythonIntegtationTest/requirements.txt
+ - sudo -H pip install -r SeleniumTest/requirements.txt
+ - sudo -H pip install -r PythonIntegtationTest/requirements.txt
 
 script:
  - cd tetsujin
@@ -37,10 +42,10 @@ script:
  - sleep 10
  - docker ps -a
  - cd ./SeleniumTest
- - python3 setup.py test
+ - python setup.py test
  - cd ..
  - cd ./PythonIntegtationTest
- - python3 setup.py test
+ - python setup.py test
  - cd ..
 
 after_success:
