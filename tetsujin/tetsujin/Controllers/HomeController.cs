@@ -119,6 +119,12 @@ namespace tetsujin.Controllers
             return View();
         }
 
+        [Route("health")]
+        public JsonResult Health()
+        {
+            return Json(new { status = "ok" });
+        }
+
         [Route("{*path}")]
         public IActionResult Error()
         {
