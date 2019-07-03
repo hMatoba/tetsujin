@@ -13,11 +13,9 @@ addons:
 
 before_install:
  # build environment
- - wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
- - sudo dpkg -i packages-microsoft-prod.deb
- - sudo apt-get install apt-transport-https
  - sudo apt-get update
- - sudo apt-get install dotnet-sdk-2.2
+ - sudo snap install dotnet-sdk --beta --classic
+ - sudo snap alias dotnet-sdk.dotnet dotnet
  - dotnet --version
  - python --version
  - pip --version
