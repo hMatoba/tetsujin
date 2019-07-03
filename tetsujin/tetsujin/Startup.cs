@@ -67,6 +67,8 @@ namespace tetsujin
                     UnicodeRanges.CjkUnifiedIdeographs
                 })
             );
+            services.AddControllers();
+            services.AddRazorPages();
 
             var githubClientId = Configuration.GetValue<string>("GITHUB_CLIENT_ID");
             var githubClientSecret = Configuration.GetValue<string>("GITHUB_CLIENT_SECRET");
@@ -96,8 +98,8 @@ namespace tetsujin
                 }
             });
 
+            app.UseRouting();
             app.UseMvc();
-
         }
     }
 }
