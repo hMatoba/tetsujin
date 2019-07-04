@@ -56,7 +56,8 @@ namespace tetsujin
                 options.Providers.Add<GzipCompressionProvider>();
             });
             services.AddMvc(options => options.EnableEndpointRouting = false)
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                    .AddNewtonsoftJson();
 
             services.AddSingleton<HtmlEncoder>(
                 HtmlEncoder.Create(allowedRanges: new[] {
