@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.0.0-preview9-buster-slim
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0.0-rc1-buster-slim
 ARG source
 ENV BUILD_TIME="${BUILD_TIME}"
 WORKDIR /app
