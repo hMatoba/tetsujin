@@ -4,7 +4,6 @@
 }
 
 <form action="/Master/Profile/Edit" method="post">
-    @Html.AntiForgeryToken()
     <div>
         <label>プロフィール文</label>
         <div><textarea name="Body" cols="60" rows="15">@Html.Raw(ViewBag.profile)</textarea></div>
