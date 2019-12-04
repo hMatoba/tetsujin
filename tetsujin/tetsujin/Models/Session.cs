@@ -156,7 +156,8 @@ namespace tetsujin.Models
                     // cookieにsecure属性を付与
                     var cookieOption = new CookieOptions()
                     {
-                        Secure = true
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict
                     };
                     cookies.Append(SESSION_COOKIE, token, cookieOption);
 

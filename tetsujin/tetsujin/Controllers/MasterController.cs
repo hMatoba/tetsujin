@@ -50,7 +50,6 @@ namespace tetsujin.Controllers
 
         [Route("Edit")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPostAsync(Entry entry)
         {
             await entry.InsertOrUpdateAsync();
@@ -77,7 +76,6 @@ namespace tetsujin.Controllers
 
         [HttpPost]
         [Route("Profile/Edit")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostProfileAsync()
         {
             await Profile.SaveAsync(Request.Form["body"]);
