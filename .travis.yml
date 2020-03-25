@@ -13,7 +13,8 @@ addons:
 
 before_install:
  # build environment
- - sudo apt-get update
+ - sudo apt update
+ - sudo apt upgrade
  - sudo snap install dotnet-sdk --channel=3.1/stable --classic
  - sudo snap alias dotnet-sdk.dotnet dotnet
  - dotnet --version
