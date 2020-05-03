@@ -111,8 +111,9 @@ namespace OAuthProvider
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            var uri = $"https://api.github.com/user?access_token={token}";
+            var uri = "https://api.github.com/user";
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Zenigata");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("token", token);
             var response = await httpClient.GetAsync(uri);
             var responseBody = await response.Content.ReadAsStringAsync();
             var userInfo = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseBody);
