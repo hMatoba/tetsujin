@@ -98,9 +98,9 @@
     color: gray;
     font-size: 90%;
     line-height: 18px;
-    .sidebar-title
-
-{
+}
+ 
+.sidebar-title {
     padding: .4045em 1.618em;
     background-color: #444;
 }
@@ -108,9 +108,6 @@
 .sidebar-body {
     padding: .4045em 1.618em;
 }
-
-}
-
 
 #entry {
     position: relative;
